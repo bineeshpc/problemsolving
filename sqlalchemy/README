@@ -1,0 +1,10 @@
+The examples are from the below tutorial
+
+http://www.pythoncentral.io/introductory-tutorial-python-sqlalchemy/
+
+Run the following
+
+python sqlalchemy_declarative.py
+python python sqlalchemy_insert.py
+
+use ipython using interactive.py to explore it further.
