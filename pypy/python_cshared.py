@@ -1,0 +1,3 @@
+import libhello
+
+libhello.hello()
