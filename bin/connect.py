@@ -50,13 +50,20 @@ def connect(reversed=False, choice=False):
             
 
 
+connected = False
+count = 0
 if args.choice:
     connect(args.reversed, args.choice)
+
 while True:
     if commands.getstatusoutput('ping -c 4 google.com')[0] != 0:
-        connected = connect(args.reversed)
         if connected:
-            time.sleep(15)
+            count += 1
+            if count % 3 != 0:
+                time.sleep(5)
+                continue
+            
+        connected = connect(args.reversed)
 """    
 connmanctl scan wifi
 connmanctl services
