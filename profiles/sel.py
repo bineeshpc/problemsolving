@@ -40,7 +40,7 @@ class Sel(unittest.TestCase):
             profileid)
         self.driver.get(url)
         open(
-            '/tmp/{}.html'.format(profileid), 'w').write(self.driver.page_source.encode('utf8'))
+            './downloaded/{}.html'.format(profileid), 'w').write(self.driver.page_source.encode('utf8'))
 
     def downloadprofiles(self):
         for url in open('filtered.txt'):
