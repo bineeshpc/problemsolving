@@ -14,5 +14,6 @@ for i in range(numiters):
         seconds = waittime - minutes * 60
         print "time remaining is {} minutes {} seconds".format(minutes, seconds)
         time.sleep(timeslice)
-        waittime -= timeslice 
+        waittime -= timeslice
+    waittime = interval * 60
     easygui.msgbox('Time up {}.'.format(waittime_mins), 'Help Poor Bini')
