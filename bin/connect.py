@@ -40,6 +40,7 @@ def connect(reversed=False, choice=False):
         try:
             print "Trying to connect to", wifi
             connect_cmd = 'connmanctl connect {} && connmanctl state;ping -c 4 8.8.8.8;ping -c 4 google.com'.format(wifis[wifi])
+            print connect_cmd
             if commands.getstatusoutput(connect_cmd)[0] == 0:
                 print "connected to", wifi
                 return True
