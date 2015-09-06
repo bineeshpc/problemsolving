@@ -25,6 +25,20 @@ def getwifinames():
 
 #getwifinames()
 
+def is_connected():
+    cmd = 'ping -c 4 google.com'
+    count = 3
+    #print 'checking connectivity'
+    while count > 0:
+        status, output = commands.getstatusoutput(cmd)
+        if status == 0:
+            return True
+        else:
+            count -= 1
+            time.sleep(5)
+    return False
+            
+    
 def connect(reversed=False, choice=False):
     preferred_order = ['LoadDown2', 'loaddown1', '8', 'loaddown3', 'HomeNearPark1']
     if reversed:
@@ -39,10 +53,11 @@ def connect(reversed=False, choice=False):
     for wifi in preferred_order:
         try:
             print "Trying to connect to", wifi
-            connect_cmd = 'connmanctl connect {} && connmanctl state;ping -c 4 8.8.8.8;ping -c 4 google.com'.format(wifis[wifi])
-            print connect_cmd
-            if commands.getstatusoutput(connect_cmd)[0] == 0:
+            connect_cmd = 'connmanctl connect {} && connmanctl state'.format(wifis[wifi])
+            os.system(connect_cmd)
+            if is_connected():
                 print "connected to", wifi
+                os.system('connmanctl services;ip addr')
                 return True
         except KeyError:
             print wifi, "is not broadcasting now"
@@ -57,7 +72,7 @@ if args.choice:
     connect(args.reversed, args.choice)
 
 while True:
-    if commands.getstatusoutput('ping -c 4 google.com')[0] != 0:
+    if not is_connected():
         if connected:
             count += 1
             if count % 3 != 0:
