@@ -4,7 +4,7 @@ import re
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("-m", "--mount", help="mount all partitions",
-                    action="store_true")
+                    action="store_true", default="True")
 parser.add_argument("-u", "--umount", help="unmount all partitions",
                     action="store_true")
 args = parser.parse_args()
