@@ -8,7 +8,8 @@ from selenium.common.exceptions import NoAlertPresentException
 import unittest
 import time
 import re
-
+import datetime
+import os
 
 class Sel(unittest.TestCase):
 
@@ -18,7 +19,10 @@ class Sel(unittest.TestCase):
         self.base_url = "http://www.keralamatrimony.com/"
         self.verificationErrors = []
         self.accept_next_alert = True
-
+        now = datetime.datetime.now()
+        self.date_string = datetime.datetime.strftime(now, '%Y-%m-%d-%H:%M:%S')
+        os.mkdir('downloaded/' + self.date_string)
+        
     def test_sel(self):
         driver = self.driver
         driver.get(self.base_url + "/")
@@ -39,8 +43,10 @@ class Sel(unittest.TestCase):
         url = "http://profile.keralamatrimony.com/profiledetail/viewprofile.php?id={}&gaact=SID&gasrc=SRCH".format(
             profileid)
         self.driver.get(url)
+        
+        
         open(
-            './downloaded/{}.html'.format(profileid), 'w').write(self.driver.page_source.encode('utf8'))
+            './downloaded/{}/{}.html'.format(self.date_string, profileid), 'w').write(self.driver.page_source.encode('utf8'))
 
     def downloadprofiles(self):
         for url in open('filtered.txt'):
