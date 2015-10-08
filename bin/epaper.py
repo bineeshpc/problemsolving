@@ -1,4 +1,4 @@
-# !/usr/bin/env python
+#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -18,7 +18,7 @@ class Epaper(unittest.TestCase):
         fp = webdriver.FirefoxProfile()
         fp.set_preference("browser.download.folderList",2)
         fp.set_preference("browser.download.manager.showWhenStarting",False)
-        fp.set_preference("browser.download.dir",'/tmp')
+        fp.set_preference("browser.download.dir", self.temp_dir)
         #fp.set_preference("browser.helperApps.neverAsk.saveToDisk","application/zip")
         fp.set_preference("browser.download.manager.alertOnEXEOpen", False)
         mimetypes1 = "application/msword,application/csv,application/ris,text/csv,image/png,"
