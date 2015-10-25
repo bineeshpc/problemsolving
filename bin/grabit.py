@@ -24,9 +24,9 @@ def get_duration(duration_string):
     except:
         try:
             m, s = duration_string.split(':')
-            h = 0
+            h = '0'
         except:
-            h, m = 0
+            h = m = '0'
             s = duration_string
     logging.debug('%s hours %s minutes %s seconds', h, m, s)
     h, m, s = int(h), int(m), int(s)
@@ -37,7 +37,7 @@ def find_suitable_format(line, timeout=54):
     """Finds a suitable format for youtube"""
     isyoutube = (urlparse(line).netloc.find('youtube') != -1)
     duration_string = subprocess.getoutput(
-        'youtube-dl -s --get-duration {}'.format(line))
+        'youtube-dl -s --get-duration {} 2>/dev/null'.format(line))
     if re.search('ERROR', duration_string):
         logging.error('%s %s', duration_string, "cannot be downloaded")
         fmt = 1
@@ -52,10 +52,10 @@ def find_suitable_format(line, timeout=54):
         retryonerror = 5
         while retry > 0:
             if fmt == '':
-                cmd = """cd {} && timeout {} /home/bineesh/temp/youtube-dl/bin/youtube-dl {} {}""".format(
+                cmd = """cd {} && timeout {} ~/temp/youtube-dl/bin/youtube-dl {} {}""".format(
                     tempdir.name, timeout, fmt, line)
             else:
-                cmd = """cd {} && timeout {} /home/bineesh/temp/youtube-dl/bin/youtube-dl -f {} {}""".format(
+                cmd = """cd {} && timeout {} ~/temp/youtube-dl/bin/youtube-dl -f {} {}""".format(
                     tempdir.name, timeout, fmt, line)
             logging.debug(cmd)
             logging.debug(time.ctime())
@@ -96,7 +96,7 @@ def find_suitable_format(line, timeout=54):
 def download(line):
     """Downloads the given link"""
     logging.info("download: trying to download %s", line)
-    path = '/home/bineesh/temp/youtube-dl'
+    path = '~/temp/youtube-dl'
     sys.path.insert(0, path)
     import youtube_dl
     words_for_skipping = '100%|Unsupported URL|has already been downloaded and merged'
