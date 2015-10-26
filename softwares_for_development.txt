@@ -1,0 +1,9 @@
+mediawiki
+jenkins
+mercurial
+redmine
+sugarcrm
+ansible
+docker
+squashtm
+robotframework

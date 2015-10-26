@@ -1,12 +1,14 @@
-C
-Assembly
-Java
-Scala
-Scheme
-Python
-Julia
-Haskell
-Clojure
+C - Grand daddy.
+Assembly - Fastest
+Java - Most popular language, large libraries.
+Scala - JVM. spark is written in it.
+Scheme - Smaller lisp, popular in universities
+Python - Good for automation
+Julia - Python like Fast. Best from both places.
+Haskell - Functional abstraction
+Clojure - Parallelism
+Erlang - Hot swapping
+Prolog - Declarative specifications
 
  Learn at least a half dozen programming languages. Include one language that emphasizes class abstractions (like Java or C++), one that emphasizes functional abstraction (like Lisp or ML or Haskell), one that supports syntactic abstraction (like Lisp), one that supports declarative specifications (like Prolog or C++ templates), and one that emphasizes parallelism (like Clojure or Go). 
 
