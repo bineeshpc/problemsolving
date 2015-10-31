@@ -12,7 +12,7 @@ for i in range(numiters):
     while waittime > 0:
         minutes = waittime / 60
         seconds = waittime - minutes * 60
-        print "time remaining is {} minutes {} seconds".format(minutes, seconds)
+        print("time remaining is {} minutes {} seconds".format(minutes, seconds))
         time.sleep(timeslice)
         waittime -= timeslice
     waittime = interval * 60

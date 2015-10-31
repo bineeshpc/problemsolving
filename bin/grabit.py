@@ -29,7 +29,10 @@ def get_duration(duration_string):
             h = m = '0'
             s = duration_string
     logging.debug('%s hours %s minutes %s seconds', h, m, s)
-    h, m, s = int(h), int(m), int(s)
+    try:    
+        h, m, s = int(h), int(m), int(s)
+    except ValueError:
+        return 0
     return h * 60 * 60 + m * 60 + s
 
 
