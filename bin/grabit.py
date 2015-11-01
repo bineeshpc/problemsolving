@@ -15,6 +15,7 @@ import logging
 import tempfile
 import random
 import io
+import glob
 from urllib.parse import urlparse
 
 
@@ -95,6 +96,15 @@ def find_suitable_format(line, timeout=54):
             logging.info("File size is ok")
             return fmt
 
+def isalready_downloaded(line):
+    if urlparse(line).netloc.find('youtube') != -1:
+        _, videoid = line.split('=')
+        already_existing_files_list = glob.glob(args.outputdir + '/*')
+        if any([(filename.find(videoid) != -1) for filename in already_existing_files_list]):
+            return True
+        else:
+            return False
+    
 
 def download(line):
     """Downloads the given link"""
@@ -104,6 +114,9 @@ def download(line):
     import youtube_dl
     words_for_skipping = '100%|Unsupported URL|has already been downloaded and merged'
     if not args.format:
+        if isalready_downloaded(line):
+            print('{} already downloaded.'.format(line))
+            return
         format = find_suitable_format(line, args.timeout)
     else:
         format = args.format
@@ -162,6 +175,7 @@ class FileState(object):
             self.donefilelines.add(line)
 
     def __del__(self):
+        """        
         diff = self.filelines - self.donefilelines
         if len(diff) == 0:
             os.unlink(self.filename)
@@ -169,6 +183,8 @@ class FileState(object):
         with open(self.filename, 'w') as f:
             for line in diff:
                 f.write(line + '\n')
+        """
+        pass
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
