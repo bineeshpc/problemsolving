@@ -83,7 +83,7 @@ def find_suitable_format(line, timeout=54):
         size = float(re.split('MiB|GiB', extracted)[0])
         if unit == 'GiB':
             size = size * 1024
-            logging.debug('duration %s, size %s, duration/size %s',
+        logging.debug('duration %s, size %s, duration/size %s',
                           duration, size, duration / size)
         if duration / size < 14:
             if isyoutube:
@@ -99,7 +99,8 @@ def find_suitable_format(line, timeout=54):
 def isalready_downloaded(line):
     if urlparse(line).netloc.find('youtube') != -1:
         _, videoid = line.split('=')
-        already_existing_files_list = glob.glob(args.outputdir + '/*')
+        already_existing_files_list = [file
+        for file in glob.glob(args.outputdir + '/*') if file.find('part') == -1] # files which are fully downloaded
         if any([(filename.find(videoid) != -1) for filename in already_existing_files_list]):
             return True
         else:
