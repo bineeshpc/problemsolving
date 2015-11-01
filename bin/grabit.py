@@ -135,7 +135,7 @@ def download(line):
                 '-p', 'koudilya', '-o', outputfile, line]
     else:  # for other websites
         sys.argv = [path + '/bin/youtube-dl', '-o', outputfile, line]
-    #logging.debug(sys.argv)
+    logging.debug(line)
     retry = args.retries
     while retry > 0:
         try:
