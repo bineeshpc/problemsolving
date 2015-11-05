@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 Used to download files from websites.
 Input is a file containing urls
@@ -110,8 +110,11 @@ def isalready_downloaded(line):
 def download(line):
     """Downloads the given link"""
     logging.info("download: trying to download %s", line)
-    path = '~/temp/youtube-dl'
+    from os.path import expanduser
+    home = expanduser('~')
+    path = home + '/temp/youtube-dl'
     sys.path.insert(0, path)
+    print(sys.path)
     import youtube_dl
     words_for_skipping = '100%|Unsupported URL|has already been downloaded and merged'
     if not args.format:
