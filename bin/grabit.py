@@ -114,7 +114,6 @@ def download(line):
     home = expanduser('~')
     path = home + '/temp/youtube-dl'
     sys.path.insert(0, path)
-    print(sys.path)
     import youtube_dl
     words_for_skipping = '100%|Unsupported URL|has already been downloaded and merged'
     if not args.format:
