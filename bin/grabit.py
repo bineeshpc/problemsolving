@@ -99,9 +99,17 @@ def find_suitable_format(line, timeout=54):
 def isalready_downloaded(line):
     if urlparse(line).netloc.find('youtube') != -1:
         _, videoid = line.split('=')
-        already_existing_files_list = [file
-        for file in glob.glob(args.outputdir + '/*') if file.find('part') == -1] # files which are fully downloaded
-        if any([(filename.find(videoid) != -1) for filename in already_existing_files_list]):
+        all_files = glob.glob(args.outputdir + '/*')
+        already_existing_files_list = [file for file in all_files
+                        if file.find('part') == -1] # files which are fully downloaded
+        partially_downloaded_files_list = [file for file in all_files
+                                 if file.find('part') != -1]
+        is_video_id_present = any([(filename.find(videoid) != -1)
+                                   for filename in already_existing_files_list])
+        is_video_id_partially_present = any(
+            [(filename.find(videoid) != -1) 
+             for filename in partially_downloaded_files_list]) 
+        if is_video_id_present and not is_video_id_partially_present:
             return True
         else:
             return False
@@ -118,7 +126,7 @@ def download(line):
     words_for_skipping = '100%|Unsupported URL|has already been downloaded and merged'
     if not args.format:
         if isalready_downloaded(line):
-            print('{} already downloaded.'.format(line))
+            print('{} is already downloaded.'.format(line))
             return
         format = find_suitable_format(line, args.timeout)
     else:
@@ -162,20 +170,20 @@ class FileState(object):
 
     def __init__(self, filename):
         self.filename = filename
-        self.filelines = set()
-        self.donefilelines = set()
+        self.filelines = []
+        self.donefilelines = []
         shutil.copyfile(self.filename,
                         self.filename + str(random.randint(10000, 20000)) + '.txt')
         with open(self.filename) as f:
             for line in f:
                 line = line.strip('\n')
-                self.filelines.add(line)
+                self.filelines.append(line)
         logging.debug("set filelines %s", self.filelines)
 
     def download(self):
         for line in self.filelines:
             download(line)
-            self.donefilelines.add(line)
+            self.donefilelines.append(line)
 
     def __del__(self):
         """        
