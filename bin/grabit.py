@@ -77,6 +77,8 @@ def find_suitable_format(line, timeout=54):
             except AttributeError:
                 retry -= 1
                 timeout += 10
+                if not isyoutube:
+                    return fmt
                 logging.error(
                     "Network seems to be slow retrying {} more times".format(retry))
         unit = re.search("\d*\.\d*(MiB|GiB)", textoutput).groups()[0]
@@ -137,12 +139,10 @@ def download(line):
     if urlparse(line).netloc.find('youtube') != -1:  # youtube specific options
         if format:
             sys.argv = [
-                path + '/bin/youtube-dl', '-u', 'itsmayashekhar',
-                '-p', 'koudilya', '-f', format, '-o', outputfile, line]
+                path + '/bin/youtube-dl','-f', format, '-o', outputfile, line]
         else:
             sys.argv = [
-                path + '/bin/youtube-dl', '-u', 'itsmayashekhar',
-                '-p', 'koudilya', '-o', outputfile, line]
+                path + '/bin/youtube-dl', '-o', outputfile, line]
     else:  # for other websites
         sys.argv = [path + '/bin/youtube-dl', '-o', outputfile, line]
     logging.debug(line)
