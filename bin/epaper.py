@@ -20,6 +20,8 @@ class Epaper(unittest.TestCase):
         fp.set_preference("browser.download.manager.showWhenStarting",False)
         fp.set_preference("browser.download.dir", self.temp_dir)
         #fp.set_preference("browser.helperApps.neverAsk.saveToDisk","application/zip")
+	fp.set_preference("browser.startup.homepage_override.mstone", "ignore")
+	fp.set_preference('browser.startup.page', 0)
         fp.set_preference("browser.download.manager.alertOnEXEOpen", False)
         mimetypes1 = "application/msword,application/csv,application/ris,text/csv,image/png,"
         mimetypes2 = "application/pdf,text/html,text/plain,application/zip,application/x-zip,"
