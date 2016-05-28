@@ -19,34 +19,35 @@ thambi
 reshma
 adi	kid
 appu
-anju
+anju	notcoming
 ramu
 mahesh	notcoming
 mahesh wife	notcoming
 mahesh1 kid	notcoming
-murali
-muraliwife
-murali1	kid
-murali2	kid
-babuttan
+murali	notcoming
+muraliwife	notcoming
+murali1	kid	notcoming
+murali2	kid	notcoming
+babuttan	notcoming
 jayan
 rajeevan
-rajeevan wife
-mani ashokan
+rajeevan wife	notcoming
+mani ashokan son
 omprakash
 sathi
 geetha hari
 sangeetha
-ganeshan
-ganeshan wife
-ganeshan1 kid
-ganeshan2 kid
-wilson wife
-wilson1 kid
-wilson2 kid
-manikandan
-prabhat
-prabhat wife
+ayyappan
+ganeshan	notcoming
+ganeshan wife	notcoming
+ganeshan1 kid	notcoming
+ganeshan2 kid	notcoming
+wilson wife	notcoming
+wilson1 kid	notcoming
+wilson2 kid	notcoming
+manikandan	notcoming
+prabhat	notcoming
+prabhat wife	notcoming
 girijeshan son
 skandan wife
 skandan son
