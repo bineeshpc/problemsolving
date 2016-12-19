@@ -47,7 +47,7 @@ def connect_to_specific(wifi):
     return False
     
 def connect(reversed=False, choice=False):
-    preferred_order = ['LoadDown2', 'loaddown1', '8', 'loaddown3', 'HomeNearPark1']
+    preferred_order = ['LoadDown2', 'loaddown1', '8', 'loaddown3', 'HomeNearPark', 'HomeNearPark1']
     if reversed:
         preferred_order = preferred_order[::-1]
     if choice:
