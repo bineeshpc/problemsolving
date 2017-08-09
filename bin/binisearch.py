@@ -29,7 +29,7 @@ class Research(object):
         # ['badg', 'fccochin', enclose('real madrid', '"')]
         self.removedphrases = []
         self.orr = []  # ['kevin', 'mitnik', 'sachin']
-        self.supportstrings = ['glossary', 'faq', 'introduction', 'books',
+        self.supportstrings = ['slide', 'glossary', 'faq', 'introduction', 'books',
                                'amazon best sellers', 'torrent', "lecture notes",
                                'lectures']
         self.searchstrings = []
