@@ -29,8 +29,10 @@ class Research(object):
         # ['badg', 'fccochin', enclose('real madrid', '"')]
         self.removedphrases = []
         self.orr = []  # ['kevin', 'mitnik', 'sachin']
-        self.supportstrings = ['slide', 'glossary', 'faq', 'introduction', 'books',
-                               'amazon best sellers', 'torrent', "lecture notes",
+        self.supportstrings = ['slide', 'glossary', 'faq',
+                               'introduction', 'books',
+                               'amazon best sellers', 'torrent',
+                               "lecture notes",
                                'lectures']
         self.searchstrings = []
         self.browseropened = False
@@ -62,38 +64,63 @@ class Research(object):
 
         lst1 = [lst, domains, filetypes, supportstrings]
         self.supportstrings = sum(lst1, [])
+        self.urls = self.build_urls(self.supportstrings)
+        # self.openbrowser(self.urls)
 
-        self.openbrowser(self.supportstrings)
-
-    def openbrowser(self, lst):
+    def build_urls(self, lst):
+        url_list = []
         for str_data in lst:
-            print str_data
             str_data = "https://www.google.co.in/#q={}".format(str_data)
-            print str_data
-            if not self.browseropened:
-                self.browseropened = True
-                webbrowser.open(str_data)
-                time.sleep(15)
-            else:
-                pass
-                webbrowser.open_new_tab(str_data)
+            url_list.append(str_data)
         lst2 = ["https://scholar.google.co.in/scholar?q={}",
                 "https://www.google.co.in/search?tbm=vid&q={}",
                 "https://www.google.co.in/search?site=blogsearch&q={}",
-                "https://www.google.co.in/search?q={}&btnG=Search+Books&tbm=bks&tbo=1"
+                "https://www.google.co.in/search?q={}&hs=cX5&source=lnms&tbm=isch&sa=X", "https://www.google.co.in/search?q={}&btnG=Search+Books&tbm=bks&tbo=1"
                 ]
         sstring = lst[0]
-        for url in lst2:
-            webbrowser.open_new_tab(url.format(sstring))
+        for url1 in lst2:
+            url_list.append(url1.format(sstring))
+
+        url_list = [url1.replace(' ', '%20').replace('"', '') for url1 in url_list]
+        for url1 in url_list:
+            print url1
+        return url_list
+        
+    def openbrowser(self, lst=None):
+        if not lst:
+            lst = self.urls
+        for url1 in lst:
+            if not self.browseropened:
+                self.browseropened = True
+                webbrowser.open(url1)
+                browsertabs_count = 1
+            else:
+                if browsertabs_count <= 7:
+                    webbrowser.open_new_tab(url1)
+                    browsertabs_count += 1
+                else:
+                    webbrowser.open(url1)
+                    browsertabs_count = 1
 
 
-od = collections.OrderedDict()
+
+def main():
+    # od = collections.OrderedDict()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("searchstring1", help="first search string")
+    parser.add_argument("searchstring2",
+                        help="second search string", nargs="?")
+
+    parser.add_argument('-o', dest='open_browser', action='store_true',
+                    default=False,
+                    help='Open browser if this is passed')
+    args = parser.parse_args()
+    # print args.searchstring1
+    # print args.searchstring2
+    r = Research(args.searchstring1, args.searchstring2)
+    if args.open_browser:
+        r.openbrowser()
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument("searchstring1", help="first search string")
-parser.add_argument("searchstring2", help="second search string", nargs="?")
-args = parser.parse_args()
-print args.searchstring1
-print args.searchstring2
-r = Research(args.searchstring1, args.searchstring2)
+if __name__ == '__main__':
+    main()
