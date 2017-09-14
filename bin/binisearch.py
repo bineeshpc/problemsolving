@@ -15,6 +15,19 @@ def apply_join(lst, s):
     return s.join(lst)
 
 
+def replace_all_strings(s, str1):
+    """
+    given a string s replace all strings in the list of tuples
+    replace alls strings with their curresponding strings in the tuple
+    Args:
+    s(str): is a string where some somestrings should be replaced
+    str1(list): list of tuples [(s1, s1_replacement), (s2, s2_replacement) ..]
+    """
+    for str2, str2_replacement in str1:
+        s = s.replace(str2, str2_replacement)
+    return s
+
+
 class Research(object):
 
     def __init__(self, searchstring1, searchstring2):
@@ -30,13 +43,26 @@ class Research(object):
         self.removedphrases = []
         self.orr = []  # ['kevin', 'mitnik', 'sachin']
         self.supportstrings = ['slide', 'glossary', 'faq',
-                               'introduction', 'books',
+                               'common mistakes', 'examples',
+                               'introduction', 'books', 'cheatsheet',
+                               'notes', 'summary',
                                'amazon best sellers', 'torrent',
-                               "lecture notes",
-                               'lectures']
+                               'lecture notes', 'hashtag on twitter',
+                               'lectures', 'top 10', 'alternatives',
+                               'practical', 'companies', 'government',
+                               'mind the book', 'quora', 'yahoo answers',
+                               'super user', 'stack overflow', 'arch',
+                               'debian', 'open source'
+        ]
         self.searchstrings = []
+        self.toreplace = [(' ', '%20'),
+                          ('"', ''),
+                          ('(', '%40'),
+                          (')', '%41')
+        ]
         self.browseropened = False
         self.get_ready()
+        self.emacs()
 
     def get_ready(self):
         lst = [
@@ -60,12 +86,13 @@ class Research(object):
         filetypes = ['filetype:{x} {d}'.format(
             x=x, d=enclose(self.searchstring1)) for x in self.filetypes]
         supportstrings = [
-            '{} {}'.format(enclose(self.searchstring1), s) for s in self.supportstrings]
+            '{} {}'.format(
+                enclose(self.searchstring1), s) for s in self.supportstrings]
 
         lst1 = [lst, domains, filetypes, supportstrings]
         self.supportstrings = sum(lst1, [])
         self.urls = self.build_urls(self.supportstrings)
-        # self.openbrowser(self.urls)
+        
 
     def build_urls(self, lst):
         url_list = []
@@ -80,11 +107,62 @@ class Research(object):
         sstring = lst[0]
         for url1 in lst2:
             url_list.append(url1.format(sstring))
-
-        url_list = [url1.replace(' ', '%20').replace('"', '') for url1 in url_list]
-        for url1 in url_list:
-            print url1
+        url_list = [replace_all_strings(url1,
+                    self.toreplace) for url1 in url_list]
         return url_list
+
+    def emacs(self):
+        annotation = [ 'define',
+                       'Base Search',
+                       'intext',
+                       'blank',
+                       'dont know',
+                       'inurl',
+                       'Education sites',
+                       'org sites',
+                       'com sites',
+                       'india sites',
+                       'wikipedia',
+                       'pdf format',
+                       'ppt format',
+                       'doc format',
+                       'Slides',
+                       'Glossary',
+                       'Frequently asked questions',
+                       'Common Mistakes',
+                       'Examples',
+                       'Introduction',
+                       'Books about it',
+                       'Cheatsheet',
+                       'Notes',
+                       'Summary',
+                       'Best Sellers',
+                       'Torrent',
+                       'Lecture Notes',
+                       'Twitter hashtag search',
+                       'Lectures about it',
+                       'Top 10',
+                       'Alternatives for it',
+                       'Practical ideas',
+                       'Companies doing it',
+                       'Governments doing it',
+                       'Mind the book',
+                       'Quora questions',
+                       'Yahoo answers',
+                       'Super User',
+                       'Stack Overflow',
+                       'Arch linux world',
+                       'Debian linux world',
+                       'Open Source world',
+                       'Scholar',
+                       'Video',
+                       'Blog search',
+                       'Image search',
+                       'Books'
+        ]
+        for url1, ann in zip(self.urls, annotation):
+            print "[[{}][{}]]".format(url1, ann)
+            # print url1, ann
         
     def openbrowser(self, lst=None):
         if not lst:
