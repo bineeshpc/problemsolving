@@ -62,7 +62,6 @@ class Research(object):
         ]
         self.browseropened = False
         self.get_ready()
-        self.emacs()
 
     def get_ready(self):
         lst = [
@@ -92,27 +91,7 @@ class Research(object):
         lst1 = [lst, domains, filetypes, supportstrings]
         self.supportstrings = sum(lst1, [])
         self.urls = self.build_urls(self.supportstrings)
-        
-
-    def build_urls(self, lst):
-        url_list = []
-        for str_data in lst:
-            str_data = "https://www.google.co.in/#q={}".format(str_data)
-            url_list.append(str_data)
-        lst2 = ["https://scholar.google.co.in/scholar?q={}",
-                "https://www.google.co.in/search?tbm=vid&q={}",
-                "https://www.google.co.in/search?site=blogsearch&q={}",
-                "https://www.google.co.in/search?q={}&hs=cX5&source=lnms&tbm=isch&sa=X", "https://www.google.co.in/search?q={}&btnG=Search+Books&tbm=bks&tbo=1"
-                ]
-        sstring = lst[0]
-        for url1 in lst2:
-            url_list.append(url1.format(sstring))
-        url_list = [replace_all_strings(url1,
-                    self.toreplace) for url1 in url_list]
-        return url_list
-
-    def emacs(self):
-        annotation = [ 'define',
+        self.annotation = [ 'define',
                        'Base Search',
                        'intext',
                        'blank',
@@ -160,11 +139,62 @@ class Research(object):
                        'Image search',
                        'Books'
         ]
-        for url1, ann in zip(self.urls, annotation):
+
+    def build_urls(self, lst):
+        url_list = []
+        for str_data in lst:
+            str_data = "https://www.google.co.in/#q={}".format(str_data)
+            url_list.append(str_data)
+        lst2 = ["https://scholar.google.co.in/scholar?q={}",
+                "https://www.google.co.in/search?tbm=vid&q={}",
+                "https://www.google.co.in/search?site=blogsearch&q={}",
+                "https://www.google.co.in/search?q={}&hs=cX5&source=lnms&tbm=isch&sa=X", "https://www.google.co.in/search?q={}&btnG=Search+Books&tbm=bks&tbo=1"
+                ]
+        sstring = lst[0]
+        for url1 in lst2:
+            url_list.append(url1.format(sstring))
+        url_list = [replace_all_strings(url1,
+                    self.toreplace) for url1 in url_list]
+        return url_list
+
+    def emacs(self):
+        
+        for url1, ann in zip(self.urls, self.annotation):
             print "[[{}][{}]]".format(url1, ann)
             # print url1, ann
         
     def openbrowser(self, lst=None):
+        """
+        Create an html output and open it in browser
+        """
+        search_output = "/tmp/searches.html"
+        html_string = """
+            <html>
+            <title>
+            Convenient searches
+            </title>
+            <body>
+            {}
+            </body>
+            </html>
+            """
+        search_line_template = '''<a href="{}" target="_blank">{}</a>'''
+        with open(search_output, 'w') as search_output_file:
+            search_lines = []
+            for url1, ann in zip(self.urls, self.annotation):
+                search_line = search_line_template.format(url1, ann)
+                search_lines.append(search_line)
+            all_search_lines_string = '<br>'.join(search_lines)
+            html_string_to_write = html_string.format(all_search_lines_string)
+            search_output_file.write(html_string_to_write)
+        
+        if self.browseropened:
+            webbrowser.open_new_tab(search_output)
+        else:
+            self.browseropened = True
+            webbrowser.open(search_output)
+        """
+        Earlier code for opening browser tabs for every url generated
         if not lst:
             lst = self.urls
         for url1 in lst:
@@ -179,6 +209,7 @@ class Research(object):
                 else:
                     webbrowser.open(url1)
                     browsertabs_count = 1
+        """
 
 
 
@@ -198,6 +229,8 @@ def main():
     r = Research(args.searchstring1, args.searchstring2)
     if args.open_browser:
         r.openbrowser()
+    else:
+        r.emacs()
 
 
 if __name__ == '__main__':
