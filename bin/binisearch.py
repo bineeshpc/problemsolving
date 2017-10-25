@@ -91,54 +91,56 @@ class Research(object):
         lst1 = [lst, domains, filetypes, supportstrings]
         self.supportstrings = sum(lst1, [])
         self.urls = self.build_urls(self.supportstrings)
-        self.annotation = [ 'define',
-                       'Base Search',
-                       'intext',
-                       'blank',
-                       'dont know',
-                       'inurl',
-                       'Education sites',
-                       'org sites',
-                       'com sites',
-                       'india sites',
-                       'wikipedia',
-                       'pdf format',
-                       'ppt format',
-                       'doc format',
-                       'Slides',
-                       'Glossary',
-                       'Frequently asked questions',
-                       'Common Mistakes',
-                       'Examples',
-                       'Introduction',
-                       'Books about it',
-                       'Cheatsheet',
-                       'Notes',
-                       'Summary',
-                       'Best Sellers',
-                       'Torrent',
-                       'Lecture Notes',
-                       'Twitter hashtag search',
-                       'Lectures about it',
-                       'Top 10',
-                       'Alternatives for it',
-                       'Practical ideas',
-                       'Companies doing it',
-                       'Governments doing it',
-                       'Mind the book',
-                       'Quora questions',
-                       'Yahoo answers',
-                       'Super User',
-                       'Stack Overflow',
-                       'Arch linux world',
-                       'Debian linux world',
-                       'Open Source world',
-                       'Scholar',
-                       'Video',
-                       'Blog search',
-                       'Image search',
-                       'Books'
+        self.annotation = [ ('define', 0), 
+                            ('Base Search', 0),
+                            ('intext', 10),
+                            ('blank', 10),
+                            ('dont know', 10),
+                            ('inurl', 10),
+                            ('Education sites', 7),
+                            ('org sites', 7), 
+                            ('com sites', 7),
+                            ('india sites', 6),
+                            ('wikipedia', 1),
+                            ('pdf format', 5),
+                            ('ppt format', 5),
+                            ('doc format', 6),
+                            ('Slides', 0),
+                            ('Glossary', 5),
+                            ('Frequently asked questions', 3),
+                            ('Common Mistakes', 4),
+                            ('Examples', 5),
+                            ('Introduction', 4),
+                            ('Books about it',3),
+                            ('Cheatsheet', 3),
+                            ('Notes', 6),
+                            ('Summary', 4),
+                            ('Best Sellers', 5),
+                            ('Torrent', 8),
+                            ('Lecture Notes', 4),
+                            ('Twitter hashtag search', 5),
+                            ('Lectures about it', 4),
+                            ('Top 10', 7),
+                            ('Alternatives for it', 8),
+                            ('Practical ideas', 6),
+                            ('Companies doing it', 8),
+                            ('Governments doing it', 8),
+                            ('Mind the book', 9),
+                            ('Quora questions', 5),
+                            ('Yahoo answers', 8),
+                            ('Super User', 8),
+                            ('Stack Overflow', 5),
+                            ('Arch linux world', 6),
+                            ('Debian linux world', 7),
+                            ('Open Source world', 8),
+                            ('Scholar', 9),
+                            ('Video', 1),
+                            ('Blog search', 5),
+                            ('Image search', 1),
+                            ('Books', 6)
         ]
+
+        self.prioritizer = Prioritizer(self.urls, self.annotation)
 
     def build_urls(self, lst):
         url_list = []
@@ -159,7 +161,7 @@ class Research(object):
 
     def emacs(self):
         
-        for url1, ann in zip(self.urls, self.annotation):
+        for url1, ann in self.prioritizer.prioritized():
             print "[[{}][{}]]".format(url1, ann)
             # print url1, ann
         
@@ -181,7 +183,7 @@ class Research(object):
         search_line_template = '''<a href="{}" target="_blank">{}</a>'''
         with open(search_output, 'w') as search_output_file:
             search_lines = []
-            for url1, ann in zip(self.urls, self.annotation):
+            for url1, ann in self.prioritizer.prioritized():
                 search_line = search_line_template.format(url1, ann)
                 search_lines.append(search_line)
             all_search_lines_string = '<br>'.join(search_lines)
@@ -211,8 +213,25 @@ class Research(object):
                     browsertabs_count = 1
         """
 
+class Prioritizer(object):
+    def __init__(self, urls, annotations):
+        self.urls = urls
+        self.annotations = annotations
+        self.url_annotation_mapping = self.u_a_mapping()
+
+    def u_a_mapping(self):
+        mapping = []
+        for url, annotation in zip(self.urls, self.annotations):
+            mapping.append((url, annotation[0], annotation[1]))
+        return mapping
 
 
+    def prioritized(self):
+        ordered = sorted(self.url_annotation_mapping, key=lambda(x): x[2])
+        for x in ordered:
+            yield x[0], x[1]
+
+        
 def main():
     # od = collections.OrderedDict()
     parser = argparse.ArgumentParser()
