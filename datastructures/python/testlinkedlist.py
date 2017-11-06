@@ -40,5 +40,5 @@ def testsearch():
     lst1 = linkedlist.List()
     lst1.createlist(lst)
     print lst1
-    assert lst1.search(26) == 26
-    assert lst1.search(50) == None   
+    assert lst1.search(26) == True
+    assert lst1.search(50) == False   

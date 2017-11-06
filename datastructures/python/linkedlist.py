@@ -1,58 +1,105 @@
-class Node:
+#! /usr/bin/env python
+class Node(object):
+    """ Represents a single node in the linked list which can
+    be used in the list data structure
+    """
     def __init__(self, data):
+        """ Create a single node using this function.
+        All node's will have its next element initialized to None
+        """
         self.data = data
         self.next = None
 
-class List():
+
+class List(object):
     def __init__(self):
+        """ Initializes a header node with data as None
+        we don't store data in the header"""
         self.head = Node(None)
 
     def insert(self, data):
+        """ Given an element insert it in to the end of the list """
         node = Node(data)
         runner = self.head
-        while runner.next != None:
+        while runner.next is not None:
             runner = runner.next
         runner.next = node
         return node
 
-    def createlist(self, lst):
+    def createlist_inefficient(self, lst):
+        """ For every element we start from the head
+        We insert the element in the end"""
         for i in lst:
             self.insert(i)
 
+    def createlist(self, lst):
+        """ This is efficient implementation of create list
+        Args: lst is a python list which is used to construct a linked list
+        """
+        node = None
+        for element in lst:
+            if not node:
+                node = Node(element)
+                firstnode = node
+            else:
+                node.next = Node(element)
+                node = node.next
+        self.head.next = firstnode
+
     def search(self, data):
+        """ Searches the linkes list and returns True if found
+        returns False if not found
+        Args: data
+        Returns: True if found else returns False"""
         runner = self.head
-        while runner.next != None:
+        while runner.next is not None:
             runner = runner.next
             if runner.data == data:
-                return data
+                return True
+        return False
 
     def delete(self, data):
+        """ Deletes the node with data == data
+        Args: data which is the element to delete if present in list
+        Returns: False if not found """
         runner = self.head
-        while runner.next != None:
+        while runner.next is not None:
             if runner.next.data == data:
-                 runner.next = runner.next.next
-                 break
+                runner.next = runner.next.next
+                return True  # found data and deleted
             else:
-                 runner = runner.next
+                runner = runner.next
+        return False  # did not find the element
 
     def createcycle(self, initialrun, cyclesize):
-        #create initial run without cycle
-        for i in range(1, initialrun + 1):
-            node = self.insert(i)
-        #create cycle
+        """ Creates a linked list with a cycle where there
+        is an initial run of lenght initial run and
+        a cycle size of cycle size
+        Args: 
+        initialrun int with a initial run count initialrun
+        cyclesize int with cycle size cyclesize
+        Returns: None """
+        # create initial run of 1 to initialrun without cycle
+        for element in range(1, initialrun + 1):
+            node = self.insert(element)
+        # create cycle
         node1 = node
-        for i in range(cyclesize):
-            node1.next = Node(i)
+        for count in range(cyclesize):
+            node1.next = Node(initialrun + count)
+            node1 = node1.next
         node1.next = node
-            
+
     def detectcycle(self):
+        """ detects a cycle if present in a linked list
+        """
         hare = self.head
         tortoise = self.head
-        while hare.next != None:
-            if hare.next.next != None:
+        while hare.next is not None:
+            if hare.next.next is not None:
                 hare = hare.next.next
                 tortoise = tortoise.next
-            else: break
+            else:
+                break
             if hare == tortoise:
                 print "Cycle detected"
                 return True
@@ -60,18 +107,20 @@ class List():
         return False
 
     def __str__(self):
+        """ return the str form of a non cyclical linked list """
         runner = self.head
         lst = ["H"]
         runner = runner.next
-        while runner != None:
+        while runner is not None:
             lst.append("->{}".format(runner.data))
             runner = runner.next
         return ''.join(lst)
 
     def tolist(self):
+        """ Convert a linked list to a normal list """
         lst = []
         runner = self.head
-        while runner.next != None:
+        while runner.next is not None:
             lst.append(runner.next.data)
             runner = runner.next
         return lst
