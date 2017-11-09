@@ -33,7 +33,10 @@ def testnocycle():
 def test_cycle():
     cyclelist = linkedlist.List()
     cyclelist.createcycle(5, 6)
-    assert cyclelist.detectcycle() == True
+    if cyclelist.detectcycle() == True:
+        return "True"
+    else:
+        return "False"
 
 def testsearch():
     lst = range(25,35)
