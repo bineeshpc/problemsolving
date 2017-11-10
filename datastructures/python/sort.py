@@ -1,9 +1,16 @@
-def qs(a):
-    if a == []:
+def quicksort_haskell_style(arr):
+    """
+    Quicksort in python which is similar to the haskell version
+    https://wiki.haskell.org/Introduction#Quicksort_in_Haskell
+    """
+    if arr == []:
         return []
     else:
-        return qs([i for i in a if i < a[0]]) + [a[0]]\
-             + qs([i for i in a if i > a[0]])
+        lesser = [i for i in arr if i < arr[0]]
+        greater = [i for i in arr if i > arr[0]]
+        return quicksort_haskell_style(lesser) \
+            + [arr[0]] \
+            + quicksort_haskell_style(greater)
 
 def partition(a, p, r):
     x = a[r-1]
