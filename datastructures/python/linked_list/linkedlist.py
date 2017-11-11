@@ -26,6 +26,33 @@ class List(object):
         runner.next = node
         return node
 
+
+    def insert_in_beginning(self, data):
+        """ inserts a node in the beginning of data
+        Args: data
+        returns: None """
+        node = Node(data)
+        temp = self.head.next
+        self.head.next = node
+        node.next = temp
+
+
+    def delete_from_beginning(self):
+        """ Deletes a node in the beginning of list
+        Args: data
+        returns: the data from deleted node """
+        temp = self.head.next
+        if temp:
+            self.head.next = temp.next
+            return temp.data
+        
+
+    def get_first(self):
+        """ Gets the first node from the list 
+        Args: No arguments
+        Returns: First node in the linked list """
+        return self.head.next
+        
     def createlist_inefficient(self, lst):
         """ For every element we start from the head
         We insert the element in the end"""
@@ -37,6 +64,7 @@ class List(object):
         Args: lst is a python list which is used to construct a linked list
         """
         node = None
+        firstnode = None
         for element in lst:
             if not node:
                 node = Node(element)
