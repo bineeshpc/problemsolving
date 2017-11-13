@@ -1,3 +1,5 @@
+import sys
+sys.path.append("../queues")
 from queue import Queue
 
 class Enum:
