@@ -5,3 +5,8 @@ syntax: glob
 *.class
 *.classpath
 *.project
+datastructures/python/string_algorithms/input02.txt
+datastructures/python/string_algorithms/input03.txt
+datastructures/python/string_algorithms/myoutput02.txt
+datastructures/python/string_algorithms/output02.txt
+datastructures/python/string_algorithms/output03.txt

@@ -1,0 +1,7 @@
+6
+add a
+find a
+add aaaaaaaaaaaaaaaaaaaaa
+find aaaaaaaaaaaaaaaaaaaaa
+find aa
+find ab
