@@ -43,5 +43,10 @@ def testsearch():
     lst1 = linkedlist.List()
     lst1.createlist(lst)
     print lst1
-    assert lst1.search(26) == True
-    assert lst1.search(50) == False   
+
+    for element in lst:
+        assert lst1.search(element) == True
+
+
+if __name__ == '__main__':
+    testsearch()

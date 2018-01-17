@@ -1,0 +1,26 @@
+| *Setting*  | *Value*              |
+| Library    | OperatingSystem      |
+| Library    | ../testlinkedlist.py |
+| *Variable* | *Value*              |
+| ${MESSAGE} | Hello, world!        |
+
+| *Test Case*                         | *Action*        | *Argument*                                            |                                                            |
+| My Test                             | [Documentation] | Example test                                          |                                                            |
+|                                     | Log             | ${MESSAGE}                                            |                                                            |
+|                                     | My Keyword      | /tmp                                                  |                                                            |
+| Another Test                        | Should Be Equal | ${MESSAGE}                                            | Hello, world!                                              |
+| create list                         | [Documentation] | Test Create List operation with numbers from 1 to 10  |                                                            |
+|                                     | ${result} =     | Run                                                   | python ../rtest.py test_create_list createlist.100.txt     |
+|                                     | Should Be Equal | ${result}                                             | [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]                            |
+| delete element from list            | [Documentation] | Test Delete 5 from a list with numbers from 1 to 10   |                                                            |
+|                                     | ${result} =     | Run                                                   | python ../rtest.py test_delete deletelist.100.txt -e 5     |
+|                                     | Should Be Equal | ${result}                                             | [1, 2, 3, 4, 6, 7, 8, 9, 10]                               |
+| delete multiple elements  from list | [Documentation] | Test Delete 5,6 from a list with numbers from 1 to 10 |                                                            |
+|                                     | ${result} =     | Run                                                   | python ../rtest.py test_delete_elements deletelist.101.txt |
+|                                     | Should Be Equal | ${result}                                             | [1, 2, 3, 4, 7, 8, 9, 10]                                  |
+
+
+
+| *Keyword*  |
+| My Keyword | [Arguments] | ${path}
+|            | Directory Should Exist | ${path}

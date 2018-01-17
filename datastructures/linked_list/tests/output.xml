@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generated="20171111 21:42:40.645" generator="Robot 2.8.6 (Python 2.7.13 on linux2)">
-<suite source="/home/bineesh/problemsolving/problemsolving/datastructures/python/linked_list/tests/test.txt" id="s1" name="Test">
+<robot generated="20180117 19:05:29.330" generator="Robot 2.8.6 (Python 2.7.13 on linux2)">
+<suite source="/home/bineesh/problemsolving/problemsolving/datastructures/linked_list/tests/linkedlist.txt" id="s1" name="Linkedlist">
 <test id="s1-t1" name="My Test">
 <kw type="kw" name="BuiltIn.Log">
 <doc>Logs the given message with the given level.</doc>
 <arguments>
 <arg>${MESSAGE}</arg>
 </arguments>
-<msg timestamp="20171111 21:42:40.701" level="INFO">Hello, world!</msg>
-<status status="PASS" endtime="20171111 21:42:40.701" starttime="20171111 21:42:40.700"></status>
+<msg timestamp="20180117 19:05:29.397" level="INFO">Hello, world!</msg>
+<status status="PASS" endtime="20180117 19:05:29.397" starttime="20180117 19:05:29.396"></status>
 </kw>
 <kw type="kw" name="My Keyword">
 <doc></doc>
@@ -20,15 +20,15 @@
 <arguments>
 <arg>${path}</arg>
 </arguments>
-<msg timestamp="20171111 21:42:40.702" html="yes" level="INFO">Directory '&lt;a href="file:///tmp"&gt;/tmp&lt;/a&gt;' exists</msg>
-<status status="PASS" endtime="20171111 21:42:40.702" starttime="20171111 21:42:40.702"></status>
+<msg timestamp="20180117 19:05:29.398" html="yes" level="INFO">Directory '&lt;a href="file:///tmp"&gt;/tmp&lt;/a&gt;' exists</msg>
+<status status="PASS" endtime="20180117 19:05:29.398" starttime="20180117 19:05:29.398"></status>
 </kw>
-<status status="PASS" endtime="20171111 21:42:40.702" starttime="20171111 21:42:40.701"></status>
+<status status="PASS" endtime="20180117 19:05:29.398" starttime="20180117 19:05:29.397"></status>
 </kw>
 <doc>Example test</doc>
 <tags>
 </tags>
-<status status="PASS" endtime="20171111 21:42:40.703" critical="yes" starttime="20171111 21:42:40.700"></status>
+<status status="PASS" endtime="20180117 19:05:29.399" critical="yes" starttime="20180117 19:05:29.396"></status>
 </test>
 <test id="s1-t2" name="Another Test">
 <kw type="kw" name="BuiltIn.Should Be Equal">
@@ -37,55 +37,108 @@
 <arg>${MESSAGE}</arg>
 <arg>Hello, world!</arg>
 </arguments>
-<msg timestamp="20171111 21:42:40.704" level="INFO">Argument types are:
+<msg timestamp="20180117 19:05:29.400" level="INFO">Argument types are:
 &lt;type 'unicode'&gt;
 &lt;type 'unicode'&gt;</msg>
-<status status="PASS" endtime="20171111 21:42:40.704" starttime="20171111 21:42:40.704"></status>
+<status status="PASS" endtime="20180117 19:05:29.401" starttime="20180117 19:05:29.400"></status>
 </kw>
 <doc></doc>
 <tags>
 </tags>
-<status status="PASS" endtime="20171111 21:42:40.704" critical="yes" starttime="20171111 21:42:40.703"></status>
+<status status="PASS" endtime="20180117 19:05:29.401" critical="yes" starttime="20180117 19:05:29.400"></status>
 </test>
-<test id="s1-t3" name="check cycle">
-<kw type="kw" name="${result} = testlinkedlist.Test Cycle">
-<doc></doc>
+<test id="s1-t3" name="create list">
+<kw type="kw" name="${result} = OperatingSystem.Run">
+<doc>Runs the given command in the system and returns the output.</doc>
 <arguments>
+<arg>python ../rtest.py test_create_list createlist.100.txt</arg>
 </arguments>
-<msg timestamp="20171111 21:42:40.705" level="INFO">Cycle detected</msg>
-<msg timestamp="20171111 21:42:40.706" level="INFO">${result} = True</msg>
-<status status="PASS" endtime="20171111 21:42:40.706" starttime="20171111 21:42:40.705"></status>
+<msg timestamp="20180117 19:05:29.404" level="INFO">Running command 'python ../rtest.py test_create_list createlist.100.txt 2&gt;&amp;1'</msg>
+<msg timestamp="20180117 19:05:29.450" level="INFO">${result} = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</msg>
+<status status="PASS" endtime="20180117 19:05:29.450" starttime="20180117 19:05:29.402"></status>
 </kw>
 <kw type="kw" name="BuiltIn.Should Be Equal">
 <doc>Fails if the given objects are unequal.</doc>
 <arguments>
 <arg>${result}</arg>
-<arg>True</arg>
+<arg>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</arg>
 </arguments>
-<msg timestamp="20171111 21:42:40.706" level="INFO">Argument types are:
-&lt;type 'str'&gt;
+<msg timestamp="20180117 19:05:29.452" level="INFO">Argument types are:
+&lt;type 'unicode'&gt;
 &lt;type 'unicode'&gt;</msg>
-<status status="PASS" endtime="20171111 21:42:40.706" starttime="20171111 21:42:40.706"></status>
+<status status="PASS" endtime="20180117 19:05:29.452" starttime="20180117 19:05:29.451"></status>
 </kw>
-<doc>Test whether cycle exist</doc>
+<doc>Test Create List operation with numbers from 1 to 10</doc>
 <tags>
 </tags>
-<status status="PASS" endtime="20171111 21:42:40.707" critical="yes" starttime="20171111 21:42:40.705"></status>
+<status status="PASS" endtime="20180117 19:05:29.452" critical="yes" starttime="20180117 19:05:29.402"></status>
+</test>
+<test id="s1-t4" name="delete element from list">
+<kw type="kw" name="${result} = OperatingSystem.Run">
+<doc>Runs the given command in the system and returns the output.</doc>
+<arguments>
+<arg>python ../rtest.py test_delete deletelist.100.txt -e 5</arg>
+</arguments>
+<msg timestamp="20180117 19:05:29.456" level="INFO">Running command 'python ../rtest.py test_delete deletelist.100.txt -e 5 2&gt;&amp;1'</msg>
+<msg timestamp="20180117 19:05:29.499" level="INFO">${result} = [1, 2, 3, 4, 6, 7, 8, 9, 10]</msg>
+<status status="PASS" endtime="20180117 19:05:29.499" starttime="20180117 19:05:29.454"></status>
+</kw>
+<kw type="kw" name="BuiltIn.Should Be Equal">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>[1, 2, 3, 4, 6, 7, 8, 9, 10]</arg>
+</arguments>
+<msg timestamp="20180117 19:05:29.500" level="INFO">Argument types are:
+&lt;type 'unicode'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20180117 19:05:29.500" starttime="20180117 19:05:29.500"></status>
+</kw>
+<doc>Test Delete 5 from a list with numbers from 1 to 10</doc>
+<tags>
+</tags>
+<status status="PASS" endtime="20180117 19:05:29.501" critical="yes" starttime="20180117 19:05:29.453"></status>
+</test>
+<test id="s1-t5" name="delete multiple elements from list">
+<kw type="kw" name="${result} = OperatingSystem.Run">
+<doc>Runs the given command in the system and returns the output.</doc>
+<arguments>
+<arg>python ../rtest.py test_delete_elements deletelist.101.txt</arg>
+</arguments>
+<msg timestamp="20180117 19:05:29.505" level="INFO">Running command 'python ../rtest.py test_delete_elements deletelist.101.txt 2&gt;&amp;1'</msg>
+<msg timestamp="20180117 19:05:29.541" level="INFO">${result} = [1, 2, 3, 4, 7, 8, 9, 10]</msg>
+<status status="PASS" endtime="20180117 19:05:29.540" starttime="20180117 19:05:29.504"></status>
+</kw>
+<kw type="kw" name="BuiltIn.Should Be Equal">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>[1, 2, 3, 4, 7, 8, 9, 10]</arg>
+</arguments>
+<msg timestamp="20180117 19:05:29.547" level="INFO">Argument types are:
+&lt;type 'unicode'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20180117 19:05:29.547" starttime="20180117 19:05:29.541"></status>
+</kw>
+<doc>Test Delete 5,6 from a list with numbers from 1 to 10</doc>
+<tags>
+</tags>
+<status status="PASS" endtime="20180117 19:05:29.548" critical="yes" starttime="20180117 19:05:29.502"></status>
 </test>
 <doc></doc>
 <metadata>
 </metadata>
-<status status="PASS" endtime="20171111 21:42:40.707" starttime="20171111 21:42:40.645"></status>
+<status status="PASS" endtime="20180117 19:05:29.550" starttime="20180117 19:05:29.330"></status>
 </suite>
 <statistics>
 <total>
-<stat fail="0" pass="3">Critical Tests</stat>
-<stat fail="0" pass="3">All Tests</stat>
+<stat fail="0" pass="5">Critical Tests</stat>
+<stat fail="0" pass="5">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat fail="0" pass="3" id="s1" name="Test">Test</stat>
+<stat fail="0" pass="5" id="s1" name="Linkedlist">Linkedlist</stat>
 </suite>
 </statistics>
 <errors>
