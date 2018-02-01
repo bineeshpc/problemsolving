@@ -25,6 +25,14 @@ class Heap(object):
         self.percolate_down(0)
         return temp
 
+            
+    def buildheap(self, a):
+        self.data = a
+        length = len(a)
+        self.heapsize = length
+        for i in range((length-2)/2, -1, -1):
+            self.percolate_up(i)
+    
     def parent(self, index):
         """ math.floor((n-1)/2)"""
         return (index-1)/2
@@ -38,16 +46,16 @@ class Heap(object):
         data in that position """
         if index < self.heapsize - 1:
             left, right = self.children(index)
-            if right > self.heapsize-1:
-                return
             max_index = left
-            if self.data[max_index] < self.data[right]:
-                max_index = right
-            if self.data[index] < self.data[max_index]:
-                temp = self.data[index]
-                self.data[index] = self.data[max_index]
-                self.data[max_index] = temp
-                self.percolate_down(max_index)
+            if right <= self.heapsize - 1:
+                if self.data[max_index] < self.data[right]:
+                    max_index = right
+            if left <= self.heapsize - 1:
+                if self.data[index] < self.data[max_index]:
+                    temp = self.data[index]
+                    self.data[index] = self.data[max_index]
+                    self.data[max_index] = temp
+                    self.percolate_down(max_index)
 
 
     def percolate_up(self, index):

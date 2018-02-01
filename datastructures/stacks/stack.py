@@ -1,12 +1,14 @@
+empty_value = -5
 class Stack:
-    def __init__(self):
+    def __init__(self, max_size=100):
         """ Initializes stack content to empty list """
-        self.data = []
+        self.max_size = max_size
+        self.data = [empty_value for i in range(self.max_size)]
         self.size = 0
 
     def push(self, value):
         """ Add an element to stack """
-        self.data.append(value)
+        self.data[self.size] = value
         self.size += 1
 
     def pop(self):
@@ -14,7 +16,6 @@ class Stack:
         if self.size > 1:
             self.size -= 1
             data = self.data[self.size]
-            del self.data[self.size]
             return data
         else:
             return None
@@ -27,4 +28,4 @@ class Stack:
             return None
 
     def __str__(self):
-        return ','.join([str(i) for i in self.data])
+        return ','.join([str(self.data[i]) for i in range(self.size)])

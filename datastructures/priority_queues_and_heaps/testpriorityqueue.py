@@ -3,23 +3,39 @@ import random
 
 class Test:
     def setUp(self):
-        self.data = [random.randint(1, 10000) for i in range(100)]
-        print self.data
-        
-    def testbuildheap(self):
-        print "testing build heap"
-        queue = pq.PriorityQueue()
-        queue.buildheap(self.data)
-        print queue.data
-        print "done testing build heap"
-        
+        self.data = [random.randint(1, 10000) for i in range(20)]
+
     def testheapsort(self):
-        print "testing heapsort"
-        queue = pq.PriorityQueue()
-        print "building heap for heapsort"
-        queue.buildheap(self.data)
-        print queue.data
-        print "Going to call heapsort"
+        length = len(self.data)
+        queue = pq.PriorityQueue(length)
+        for i in self.data:
+            queue.insert(i)
         queue.heapsort()
         print queue.data
+        print sorted(self.data)
+        assert queue.data == sorted(self.data)
+
+    def test_with_tuple_max(self):
+        self.data = [(i, i) for i in range(10)]
+        random.shuffle(self.data)
+        length = len(self.data)
+        queue = pq.PriorityQueue(length)
+        for i in self.data:
+            queue.insert(i)
+        queue.heapsort()
+        print queue.data
+        print sorted(self.data)
+        assert queue.data == sorted(self.data)
+
+
+    def test_with_tuple_min(self):
+        self.data = [(-i, i) for i in range(10)]
+        random.shuffle(self.data)
+        length = len(self.data)
+        queue = pq.PriorityQueue(length)
+        for i in self.data:
+            queue.insert(i)
+        queue.heapsort()
+        print queue.data
+        print sorted(self.data)
         assert queue.data == sorted(self.data)
