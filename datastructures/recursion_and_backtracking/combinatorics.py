@@ -8,7 +8,7 @@ class Perm:
         
     def generate_perm_with_replacement(self, n):
         if n <= 0:
-            d = self.a[:]
+            d = list(self.a)
             self.values.append(d)
         else:
             for c in self.options:
@@ -18,7 +18,7 @@ class Perm:
                 
     def generate_perm(self, n): 
         if n <= 0:
-            d = self.a[:]
+            d = list(self.a)
             self.values.append(d)
             
             
@@ -32,4 +32,17 @@ class Perm:
                     self.generate_perm(n-1)
                     self.used[c] = False
 
+def example_usage1(str1):
+    p = Perm(str1)
+    p.generate_perm(len(str1))
+    return p.values
 
+def example_usage2(str1):
+    p = Perm(str1)
+    p.generate_perm_with_replacement(len(str1))
+    return p.values
+
+
+if __name__ == '__main__':
+    print example_usage1("abc")
+    print example_usage2("abc")
