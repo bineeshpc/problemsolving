@@ -3,7 +3,7 @@ sys.path.append("../queues")
 from queue import Queue
 
 class Enum:
-    infinity = 999999999
+    infinity = sys.maxint
     previous = None
     white = 0
     gray = 1
@@ -25,12 +25,19 @@ class DFSMarker:
         self.color = color
             
 class Graph:
-    def __init__(self, gr):
-        self.graph = gr
+    def __init__(self):
+        self.graph = {}
         self.bfsmarker = {}
         self.dfsmarker = {}
         self.time = None
 
+    def add_edge(self, from_vertex, to_vertex):
+        if self.graph.get(from_vertex):
+            self.graph[from_vertex].append(to_vertex)
+        else:
+            self.graph[from_vertex] = []
+            self.graph[from_vertex].append(to_vertex)
+        
     def bfs(self, s):
         for vertex in self.graph:
             self.bfsmarker[vertex] = BFSMarker(Enum.infinity, Enum.previous, Enum.white)

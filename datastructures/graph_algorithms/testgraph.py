@@ -12,11 +12,16 @@ class TestGraph:
               'H': ['E', 'F', 'G', 'I'],
               'I': ['G', 'H']
               }
-        self.graph = graph.Graph(self.gr)
+        self.graph = graph.Graph()
+        for from_vertex, to_vertices in self.gr.iteritems():
+            for to_vertex in to_vertices:
+                self.graph.add_edge(from_vertex, to_vertex)
 
     def testbfs(self):
+        print "doing bfs from A"
         self.graph.bfs('A')
     
     def testdfs(self):
+        print "dfs"
         self.graph.dfs()
 

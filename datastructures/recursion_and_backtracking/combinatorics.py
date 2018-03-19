@@ -1,46 +1,44 @@
 class Perm:
-    def __init__(self, b):
-        self.values = []
-        self.options = b
-        self.a = [i for i in b]
-        self.used = {i:False for i in self.a}
+    def __init__(self, choices):
+        self.permutations = []
+        self.choices = choices
+        self.choices_list = [choice  for choice in choices]
+        self.used = {choice:False for choice in self.choices_list}
         
         
     def generate_perm_with_replacement(self, n):
         if n <= 0:
-            d = list(self.a)
-            self.values.append(d)
+            self.permutations.append(self.choices_list)
         else:
-            for c in self.options:
-                self.a[n-1] = c
+            for choice in self.choices:
+                # n-1 th place can be filled in len(choices_list) ways
+                # n-2 the  can be filled in len(choices_list) ways and so on
+                self.choices_list[n-1] = choice  # make this choice for n-1
+                # rely on recursion to generate from n-1 to 0
                 self.generate_perm_with_replacement(n-1)
                 #print a, n
                 
     def generate_perm(self, n): 
         if n <= 0:
-            d = list(self.a)
-            self.values.append(d)
-            
-            
+            self.permutations.append(self.choices_list)
         else:
-            for c in self.options:
-                #if c not in self.a[n:]:
-                if self.used[c] == False:
-                    self.used[c] = True
-                    self.a[n-1] = c
+            for choice in self.choices:
+                if self.used[choice] == False:
+                    self.used[choice] = True
+                    self.choices_list[n-1] = choice
                     
                     self.generate_perm(n-1)
-                    self.used[c] = False
+                    self.used[choice] = False
 
 def example_usage1(str1):
     p = Perm(str1)
     p.generate_perm(len(str1))
-    return p.values
+    return p.permutations
 
 def example_usage2(str1):
     p = Perm(str1)
     p.generate_perm_with_replacement(len(str1))
-    return p.values
+    return p.permutations
 
 
 if __name__ == '__main__':
