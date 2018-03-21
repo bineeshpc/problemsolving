@@ -16,7 +16,7 @@ class Perm:
                 self.choices_list[n-1] = choice  # make this choice for n-1
                 # rely on recursion to generate from n-1 to 0
                 self.generate_perm_with_replacement(n-1)
-                #print a, n
+                
                 
     def generate_perm(self, n): 
         if n <= 0:
@@ -24,11 +24,11 @@ class Perm:
         else:
             for choice in self.choices:
                 if self.used[choice] == False:
-                    self.used[choice] = True
+                    # choose, explore, unchoose pattern in backtracking
+                    self.used[choice] = True  # remember the choice
                     self.choices_list[n-1] = choice
-                    
                     self.generate_perm(n-1)
-                    self.used[choice] = False
+                    self.used[choice] = False # unchoose
 
 def example_usage1(str1):
     p = Perm(str1)
