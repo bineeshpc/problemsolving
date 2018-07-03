@@ -1,3 +1,4 @@
+
 class IncompatibleMatrix(Exception):
     def __init__(self, a_columns, b_rows):
         self.a_columns = a_columns
@@ -68,7 +69,10 @@ if __name__ == '__main__':
     c = a * b
 
     c.print_matrix()
-
+    
     b_incompatible = Matrix(2, 2, [[1, 2], [1, 2]])
 
     c = a * b_incompatible
+
+    
+    
