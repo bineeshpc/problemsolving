@@ -1,5 +1,7 @@
 def fibonacci_bottomup(n):
     """ dynamic programming memoization in a bottom up way """
+    if n < 0:
+        raise Exception('undefined for negative numbers')
     fib = [0, 1]
     for i in range(2, n+1):
         fibval = fib[i-1] + fib[i-2]
@@ -9,6 +11,8 @@ def fibonacci_bottomup(n):
 
 def fibonacci_topdown(n):
     """ dynamic programming memoization in a top down way """
+    if n < 0:
+        raise Exception('undefined for negative numbers')
     fibstore = {0: 0, 1: 1}
     if n in fibstore:
         return fibstore[n]
@@ -18,18 +22,22 @@ def fibonacci_topdown(n):
 
 
 def fibonacci_iterative(n):
-    fib0 = 0
-    fib1 = 1
-    if n == 0:
-        return fib0
-    if n == 1:
-        return fib1
+    if n < 0:
+        raise Exception('undefined for negative numbers')
+    if n == 0 or n == 1:
+        return n
+    fib_iminus2 = 0
+    fib_iminus1 = 1
     for i in range(2, n+1):
-        fib = fib0 + fib1
-        fib0 = fib1
-        fib1 = fib
+        fib = fib_iminus1 + fib_iminus2
+        fib_iminus2 = fib_iminus1
+        fib_iminus1 = fib
     return fib
 
 
 for i in range(10):
     print fibonacci_bottomup(i) == fibonacci_topdown(i) == fibonacci_iterative(i)
+
+#for i in range(-1, 0):
+#    print fibonacci_bottomup(i) == fibonacci_topdown(i) == fibonacci_iterative(i)
+    
