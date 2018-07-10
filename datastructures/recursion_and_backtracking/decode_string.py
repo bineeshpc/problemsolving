@@ -66,6 +66,8 @@ def decode_string(s):
             # print current_char, character_stack
         i += 1
     return character_stack.pop()
+
+
 def process():
     t = int(input())
     for _ in range(t):
@@ -74,4 +76,5 @@ def process():
 
 process()
 
-# print decode_string('22[12[bd]ca]')
+#print decode_string('22[12[bd]ca]')
+
