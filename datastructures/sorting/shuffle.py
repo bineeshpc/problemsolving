@@ -11,7 +11,7 @@ def shuffle_sort(arr):
     return [y for x, y in arr1]
 
 
-def knuth_sort(arr):
+def knuth_shuffle(arr):
     """
     Shuffle the array in O(n)
     We keep a loop invariant where elements from 0 - i is shuffled
