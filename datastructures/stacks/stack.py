@@ -1,3 +1,5 @@
+import sys
+
 empty_value = -5
 class Stack:
     def __init__(self, max_size=100):
@@ -28,4 +30,10 @@ class Stack:
             return None
 
     def __str__(self):
-        return ','.join([str(self.data[i]) for i in range(self.size)])
+        """ Returns a string of stack elements.
+            Limit the elements to be displayed to 100
+        """
+        max_size = 100
+        if self.size > max_size:
+            sys.stdout.write("reducing the size to {}".format(max_size))
+        return ','.join([str(self.data[i]) for i in range(max_size)])

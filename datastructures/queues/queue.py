@@ -14,6 +14,12 @@ class Queue:
     def isempty(self):
         return self.size == 0
 
+    def put(self, val):
+        self.enqueue(val)
+
+    def get(self):
+        return self.dequeue()
+
 class Node:
     def __init__(self, data):
         self.data = data
@@ -28,29 +34,32 @@ class QueueList:
     def put(self, data):
         newnode = Node(data)
         self.lastnode.next = newnode
-        self.lastnode = self.lastnode.next
+        self.lastnode = newnode
 
     def get(self):
-        node = self.head.next
-        if node is not None:
-            data = node.data
-            self.head.next = node.next
-            if node.next is None:
+        first_node = self.head.next
+        if first_node is not None:
+            data = first_node.data
+            self.head.next = first_node.next
+            if first_node.next is None:
                 self.lastnode = self.head
             return data
         else:
             print('queue empty')
-
-    def put(self, data):
-        newnode = Node(data)
-        self.lastnode.next = newnode
-        self.lastnode = newnode
 
     def isempty(self):
         if self.lastnode == self.head:
             return True
         else:
             return False
+
+
+    def enqueue(self, val):
+        self.put(val)
+
+    def dequeue(self):
+        return self.get()
+
 
 def test_queuelist():
     q = QueueList()
@@ -60,4 +69,4 @@ def test_queuelist():
     for i in range(2):
         print(q.get())
 
-test_queuelist()
+# test_queuelist()

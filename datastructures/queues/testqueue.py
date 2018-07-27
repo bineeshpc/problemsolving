@@ -1,9 +1,14 @@
 import queue
 
-q = queue.Queue()
+qarray = queue.Queue()
+qlist = queue.QueueList()
 
-for i in range(10):
-    q.enqueue(i), q.isempty()
+def test_queue(q):
+    for i in range(1, 11):
+        q.enqueue(i), q.isempty()
 
-for i in range(10):
-    print q.dequeue(), q.isempty()
+    for i in range(1, 11):
+        print q.dequeue(), q.isempty()
+
+test_queue(qarray)
+test_queue(qlist)
