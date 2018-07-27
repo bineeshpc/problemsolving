@@ -1,44 +1,3 @@
-def quicksort_haskell_style(arr):
-    """
-    Quicksort in python which is similar to the haskell version
-    https://wiki.haskell.org/Introduction#Quicksort_in_Haskell
-    """
-    if arr == []:
-        return []
-    else:
-        lesser = [i for i in arr if i < arr[0]]
-        greater = [i for i in arr if i > arr[0]]
-        return quicksort_haskell_style(lesser) \
-            + [arr[0]] \
-            + quicksort_haskell_style(greater)
-
-
-def partition(arr, p, r):
-    pivot = arr[r-1]  # pivot is the last element in the array
-    i = p - 1  # i is the position to swap with j after finding
-               # an element which is less than pivot
-    j = p  # j attempts to find an element that is less than pivot
-    #  loop invariant every element upto ith index from p is less than pivot
-    while j < r - 1:  # j values from p to r - 1
-        if arr[j] < pivot:
-            i = i + 1
-            arr[i], arr[j] = arr[j], arr[i]  # swap arr[i] and arr[j]
-        j += 1
-    arr[i+1], arr[r-1] = arr[r-1], arr[i+1]  # swap arr[i+1] and arr[r-1]
-    return i + 1
-
-
-def quicksorthelper(a, p, r):
-    if p < r:
-        q = partition(a, p, r)
-        quicksorthelper(a, p, q)
-        quicksorthelper(a, q+1, r)
-
-
-def quicksort(arr):
-    """ Uses quicksort algorithm to sort an array """
-    quicksorthelper(arr, 0, len(arr))
-
 
 def mergesort(a):
     return mergesorthelper(a, 0, len(a))
@@ -133,13 +92,3 @@ def merge(arr, l, m, r):
         j += 1
         k += 1
     
-
-
-# quicksort([5, 4, 1, 2, 7, 6, 3])
-
-import random
-a =  [random.randint(1, 100) for i in range(10)]
-a = [34, 74, 94, 21, 93, 62, 100, 67, 10, 61]
-print a, len(a)
-mergesort(a)
-print a
