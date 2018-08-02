@@ -1,4 +1,6 @@
 #! /usr/bin/env python
+import six
+
 class Node(object):
     """ Represents a single node in the linked list which can
     be used in the list data structure
@@ -11,7 +13,7 @@ class Node(object):
         self.next = None
 
 
-class List(object):
+class List(six.Iterator):
     def __init__(self):
         """ Initializes a header node with data as None
         we don't store data in the header"""
@@ -78,7 +80,7 @@ class List(object):
         """ Searches the linkes list and returns True if found
         returns False if not found
         Args: data
-        Returns: True if found else returns False"""
+        Returns: True if found else returns False """
         runner = self.head
         while runner.next is not None:
             runner = runner.next
@@ -152,3 +154,19 @@ class List(object):
             lst.append(runner.next.data)
             runner = runner.next
         return lst
+
+    def isempty(self):
+        """ Checks whether the list is empty
+        """
+        return self.head.next == None
+
+    def __iter__(self):
+        self.iterhelper = self.head
+        return self
+
+
+    def __next__(self):
+        self.iterhelper = self.iterhelper.next
+        if self.iterhelper is None:
+            raise StopIteration
+        return self.iterhelper.data

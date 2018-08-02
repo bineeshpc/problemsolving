@@ -27,6 +27,14 @@ class Stack(object):
         Returns: the data from the first element without deleting that data"""
         return self.linked_list.get_first()
 
+    def put(self, data):
+        self.push(data)
+
+    def get(self):
+        return self.pop()
+
+    def isempty(self):
+        return self.linked_list.isempty()
 
 if __name__ == '__main__':
     s = Stack()

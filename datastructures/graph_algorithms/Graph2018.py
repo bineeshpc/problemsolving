@@ -1,78 +1,143 @@
 from collections import defaultdict
+import six
 import sys
+import StringIO
 sys.path.append("../queues/")
+sys.path.append("../stacks/")
+sys.path.append("../linked_list")
+from linkedlist import List
 from queue import QueueList
+from stack_linked_list import Stack
 
-class Graph(object):
-    def __init__(self):
-        self.adjacencylist = defaultdict(list)
 
-    def addvertex(self, vertex):
-        self.adjacencylist.setdefault(vertex, [])
-
-    def addedge(self, edge):
-        source_vertex, target_vertex = edge
-        self.adjacencylist.setdefault(source_vertex, []).append(target_vertex)
-
-    def get_vertices(self):
-        vertices = []
-        for vertex in self.adjacencylist:
-            vertices.append(vertex)
-        return vertices
-
-    def get_edges(self):
-        vertices = self.get_vertices()
-        edges = []
-        for vertex in self.adjacencylist:
-            for to_vertex in self.adjacencylist[vertex]:
-                edges.append((vertex, to_vertex))
-        return edges
-
-    def bfs(self, vertex):
-        visited = {vertex:False for vertex in self.get_vertices()}
-        q = QueueList()
-        visited[vertex] = True
-        q.put(vertex)
-        nodes_list = []
-        while not q.isempty():
-            node = q.get()
-            nodes_list.append(node)
-            for to_vertex in self.adjacencylist[node]:
-                if visited[to_vertex] == False:
-                    visited[to_vertex] = True
-                    q.put(to_vertex)
-        return nodes_list
-
-    def dfs(self, vertex):
-        visited = {vertex:False for vertex in self.get_vertices()}
-        node_list = []
-        def dfs_helper(self, vertex):
-            visited[vertex] = True
-            node_list.append(vertex)
-            for to_vertex in self.adjacencylist[vertex]:
-                if visited[to_vertex] == False:
-                    dfs_helper(self, to_vertex)
-
-        dfs_helper(self, vertex)
-        return node_list
-                
-def test_graph():
-    g = Graph()
-    vertices = range(1, 6)
-    for vertex in vertices:
-        g.addvertex(vertex)
-
-    edges = [(1, 2), (1,3), (1, 5), (2, 5), (2, 3), (2, 5)]
-    for edge in edges:
-        g.addedge(edge)
-
-    print g.get_vertices()
-    print g.get_edges()
-    print g.bfs(1)
-    print g.dfs(1)
-
+def isiterable(x):
+    """ Returns true if x is an iterable """
+    try:
+        iter(x)
+        isiter = True
+    except:
+        isiter = False
+    return isiter
     
 
-test_graph()
+class Graph(object):
+    def __init__(self, V):
+        """
+        Creates a graph with v vertices
+        """
+        self.adjacencylist = []
+        self.num_edges = 0
+        if isinstance(V, int):
+            for vertex in range(V):
+                self.__addvertex__(vertex)
+            self.num_vertices = V
+            
+        elif isiterable(V):
+            self.num_vertices = int(V.readline())
+            for i in range(self.num_vertices):
+                self.__addvertex__(i)
+            num_edges = int(V.readline())
+            for _ in range(num_edges):
+                v, w = V.readline().split()
+                v = int(v)
+                w = int(w)
+                self.add_edge(v, w)
+        
+
+    def __addvertex__(self, vertex):
+        self.adjacencylist.append(List())
+
+    def add_edge(self, v, w):
+        self.adjacencylist[v].insert_in_beginning(w)
+        self.adjacencylist[w].insert_in_beginning(v)
+        self.num_edges += 1
+
+    def V(self):
+        """
+        Returns number of vertices
+        """
+        return self.num_vertices
+
+    
+    def E(self):
+        """ Returns number of edges"""
+        return self.num_edges
+    
+    def adj(self, v):
+        """ Returns an iterator of all vertices that is adjacent to v"""
+        for w in self.adjacencylist[v]:
+            yield w
+
+    def __str__(self):
+        """ 
+        Returns the graph in string form 
+        """
+        sio = StringIO.StringIO()
+        sio.write(str(self.V()) + " vertices, ")
+        sio.write(str(self.E()) + " edges\n")
+        for v in range(self.V()):
+            sio.write("{} : ".format(v))
+            for w in self.adj(v):
+                sio.write(" {}".format(w))
+            sio.write("\n")
+        return sio.getvalue()
+        
+
+class DFS:
+    def __init__(self):
+        pass
+    
+    def dfs(self, G, vertex):
+        self.visited = {vertex:False for vertex in range(G.V())}
+        self.__dfs_helper__(G, vertex)
+
+    def __dfs_helper__(self, G, vertex):
+        self.visited[vertex] = True
+        for to_vertex in G.adj(vertex):
+            if self.visited[to_vertex] == False:
+                self.__dfs_helper__(G, to_vertex)
+
+    def print_visited_vertices(self, G):
+        for v in range(G.V()):
+            if(self.visited[v]):
+                print(str(v) + " "),
+        six.print_()
+        
+
+
+class BFS:
+    def __init__(self):
+        pass
+        
+    def bfs(self, G, vertex):
+        self.visited = {vertex:False for vertex in range(G.V())}
+        q = QueueList()
+        self.visited[vertex] = True
+        q.put(vertex)
+        while not q.isempty():
+            v = q.get()
+            for w in G.adj(v):
+                if self.visited[w] == False:
+                    self.visited[w] = True
+                    q.put(w)
+
+
+    def print_visited_vertices(self, G):
+        for v in range(G.V()):
+            if(self.visited[v]):
+                print(str(v) + " "),
+        six.print_()
+
+                
+def test_graph():
+    g = Graph(sys.stdin)
+    print(g)
+    d = DFS()
+    d.dfs(g, 0)
+    d.print_visited_vertices(g)
+    b = BFS()
+    b.bfs(g, 9)
+    b.print_visited_vertices(g)
+
 if __name__ == '__main__':
     test_graph()
