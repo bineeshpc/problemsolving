@@ -1,4 +1,4 @@
-import graph
+import graph2015
 
 class TestGraph:
     def setUp(self):
@@ -12,7 +12,7 @@ class TestGraph:
               'H': ['E', 'F', 'G', 'I'],
               'I': ['G', 'H']
               }
-        self.graph = graph.Graph()
+        self.graph = graph2015.Graph()
         for from_vertex, to_vertices in self.gr.iteritems():
             for to_vertex in to_vertices:
                 self.graph.add_edge(from_vertex, to_vertex)
