@@ -1,7 +1,7 @@
 import Graph
 import six
 import sys
-sys.path.append("../queues/")
+sys.path.insert(0, "../queues/")
 from queue import QueueList
 
 class BFS:
