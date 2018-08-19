@@ -1,7 +1,7 @@
 import sys
 sys.path.append('../linked_list')
 import linkedlist
-
+import six
 
 class Stack(object):
     def __init__(self):
@@ -41,6 +41,6 @@ if __name__ == '__main__':
     for i in range(1, 11):
         s.push(i)
 
-    print s.top().data    
+    six.print_(s.top().data)    
     for i in range(20):
-        print s.pop()
+        six.print_(s.pop())

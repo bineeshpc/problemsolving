@@ -131,9 +131,9 @@ class List(six.Iterator):
             else:
                 break
             if hare == tortoise:
-                print "Cycle detected"
+                six.print_("Cycle detected")
                 return True
-        print "no cycle detected"
+        six.print_("no cycle detected")
         return False
 
     def __str__(self):

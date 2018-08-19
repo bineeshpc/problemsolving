@@ -1,7 +1,6 @@
 from collections import defaultdict
 import six
 import sys
-import StringIO
 sys.path.append("../queues/")
 sys.path.append("../stacks/")
 sys.path.append("../linked_list")
@@ -72,7 +71,7 @@ class Graph(object):
         """ 
         Returns the graph in string form 
         """
-        sio = StringIO.StringIO()
+        sio = six.StringIO()
         sio.write(str(self.V()) + " vertices, ")
         sio.write(str(self.E()) + " edges\n")
         for v in range(self.V()):
