@@ -1,6 +1,6 @@
 import argparse
 import os
-import psutil
+#import psutil
 import sys
 import random
 
@@ -31,9 +31,13 @@ def create_data(args):
     with open('filename', 'wb') as f:
         size = 0
         to_write = ''.join([random.choice(data) for i in range(1024 * 1024)])
+        if sys.version_info.major == 3:
+            to_write = to_write.encode()
         while size < args.num_megabytes:
-            if random.random < .01:
+            if random.random() < .01:
                 to_write = ''.join([random.choice(data) for i in range(1024 * 1024)])
+                if sys.version_info.major == 3:
+                    to_write = to_write.encode()
             f.write(to_write)
             size += 1
     
