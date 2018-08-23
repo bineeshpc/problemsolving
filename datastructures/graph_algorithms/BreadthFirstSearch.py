@@ -23,7 +23,7 @@ class BFS:
 
     def print_visited_vertices(self, G):
         for v in range(G.V()):
-            if(self.visited[v])
+            if(self.visited[v]):
                 print(str(v) + " "),
         six.print_()
 
