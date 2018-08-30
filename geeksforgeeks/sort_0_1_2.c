@@ -40,6 +40,54 @@ int sort(int a[], int n) {
   printf("\n");  
 }
 
+
+int swap(int *a, int *b) {
+    int temp;
+    temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int partition(int a[], int n) {
+ 
+    /*
+    
+    Dutch national flag problem
+    Partition the array into 0s 1s and 2s
+    
+    loop invariant
+    everything upto a[low] is 0
+    everything from a[high] to n-1 is 2
+    everything from a[mid] to a[high] - 1 is yet to be processed
+    
+    */   
+    int low, mid, high;
+    low = -1;
+    high = n;
+    mid = 0;
+    while(mid < high) {
+        if(a[mid] == 0) {
+            low++;
+            swap(&a[low], &a[mid]);
+            mid++;
+        }else if(a[mid] == 2) {
+            high--;
+            swap(&a[mid], &a[high]);
+        } else{
+            mid++;
+        }
+    }
+    
+}
+
+int printarray(int a[], int n) {
+    int i;
+    for(i=0; i < n; i++) {
+        printf("%d ", a[i]);
+    }
+    printf("\n");
+}
+
 int main() {
 	//code
 	int a[100];
@@ -49,7 +97,10 @@ int main() {
 	while (t > 0) {
 	    scanf("%d", &n);
 	    get_array(a, n);
-	    sort(a, n);
+	    //printarray(a, n);
+	    //sort(a, n);
+	    partition(a, n);
+	    printarray(a, n);
 	    t--;
 	}
 	return 0;

@@ -7,6 +7,12 @@ price = [1, 5, 8, 9, 10, 17, 17, 20, 24, 30]
 
 def rod_cutting_simple_recursion(price, n):
     """
+    A rod of length n should be cut and sold
+    Find the cutting size to maximize profit
+    
+    each rod of length n can be cut at 
+    1 to n places(either cut it at 1 to n-1 places or without cutting at n)
+    
     n = 0 -> price = 0
     else if n > 0
     max(price[i], rate[i] + rate[n-i]) 
