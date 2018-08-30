@@ -11,6 +11,8 @@ plays yield a score of 12:
 
 """
 
+import six
+
 class Football:
     def __init__(self):
         self.count = 0
@@ -21,37 +23,44 @@ class Football:
         basecase
         find success print result
         choose
+        explore
         I can choose 7, 3 or 2 at every stage
         can I proceed further?
         unchoose
         """
+        # base case for success
         if (n == 0):
             composition = tuple(sorted(chosen))
             if composition not in self.remember_set:
-                print composition
+                six.print_(composition)
                 self.remember_set.add(composition)
                 self.count += 1
         elif n < 0:
             return None # No further evaluation possible
         else:
-            # chose element 
+            
             for value in available:
+                # choose element 
                 chosen.append(value)
                 index = len(chosen) - 1
                 self.generate_ways(n-value, chosen, available)
+                # unchoose element
                 chosen.pop(index)
 
 
     def get_num_ways(self, n):
+        """
+        Get the number of ways to get n points
+        """
         self.value = n
         self.generate_ways(n, [], [2, 3, 7])
-        print self.count
+        six.print_(self.count)
 
 
 for i in range(20):
-    print i
+    six.print_(i)
     Football().get_num_ways(i)
-    print
-    print
+    six.print_()
+    six.print_()
 
 

@@ -1,5 +1,13 @@
 def fibonacci_bottomup(n):
-    """ dynamic programming memoization in a bottom up way """
+    """ dynamic programming memoization in a bottom up way 
+    In bottom up dynamic programming we do a
+    topological sort of the dependency graph
+    and then we do the computation in that order
+    In this particular case since we need to remember only
+    2 previous fibonacci numbers we can actually 
+    use just two variables instead of an array with
+    all fiboanacci values from 0 to n
+    """
     if n < 0:
         raise Exception('undefined for negative numbers')
     fib = [0, 1]
@@ -22,6 +30,13 @@ def fibonacci_topdown(n):
 
 
 def fibonacci_iterative(n):
+    """
+    In this particular case since we need to remember only
+    2 previous fibonacci numbers we can actually 
+    use just two variables instead of an array with
+    all fiboanacci values from 0 to n
+    
+    """
     if n < 0:
         raise Exception('undefined for negative numbers')
     if n == 0 or n == 1:
