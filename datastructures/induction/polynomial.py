@@ -1,5 +1,6 @@
 import sys
 import math
+import six
 
 class Polynomial:
     def __init__(self, x, n, coefficient_list):
@@ -61,10 +62,10 @@ def test_polynomial(filename):
             n = int(f.readline().strip())
             coefficient_list = [float(y) for y in f.readline().strip().split()]
             p = Polynomial(x, n, coefficient_list)
-            print(p)
-            print(p.evaluate())
-            print(p.recursive_1())
-            print(p.evaluate_2())
+            six.print_(p)
+            six.print_(p.evaluate())
+            six.print_(p.recursive_1())
+            six.print_(p.evaluate_2())
     
 if __name__ == '__main__':
     filename = sys.argv[1]
