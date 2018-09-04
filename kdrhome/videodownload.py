@@ -47,7 +47,12 @@ def downloadplaylist(playlistname, playlist):
     #os.chdir(dirname)
     #print(os.getcwd())
     print("Downloading", playlistname, datetime.datetime.now())
-    os.system('youtube-dl -ci -o "{}/{}/%(title)s.%(ext)s" "{}" --restrict-filenames'.format(cwd, dirname, playlist))
+    
+    cmd1 = 'youtube-dl --continue --ignore-errors'
+    cmd2 = ' --format 18 --output'
+    cmd3 = ' "{}/{}/%(title)s.%(ext)s" "{}" --restrict-filenames'
+    download_cmd_string = '{}{}{}'.format(cmd1, cmd2, cmd3)
+    os.system(download_cmd_string.format(cwd, dirname, playlist))
     #os.system("echo youtubedl he he he;echo '{}';date;sleep 60;date".format(playlist))
     #os.chdir(cwd)
     #print(cwd)
