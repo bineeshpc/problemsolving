@@ -1,13 +1,59 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 from concurrent.futures import ThreadPoolExecutor
 import re
 import subprocess
 import os
 import datetime
+import argparse
+
+
+def parse_cmdline():
+
+    parser = argparse.ArgumentParser(description="""Download youtube playlists easily \n
+                                     Playlist filename is remaining.txt\n
+                                     The playlist filename with titles is playlistnames.txt
+                                     
+                                     format of remaining.txt 
+                                     $ head -2 remaining.txt
+https://www.youtube.com/playlist?list=PLE7DDD91010BC51F8
+https://www.youtube.com/playlist?list=PLUl4u3cNGP63gFHB6xb-kVBiQHYe_4hSi
+
+                                     $ head -2 playlistnames.txt
+    MIT 18.06 Linear Algebra Spring 2005,https://www.youtube.com/playlist?list=PLE7DDD91010BC51F8
+    MIT 6.034 Artificial Intelligence Fall 2010,https://www.youtube.com/playlist?list=PLUl4u3cNGP63gFHB6xb-kVBiQHYe_4hSi
+
+
+    """,
+                                     formatter_class=argparse.RawTextHelpFormatter)
+    parser.add_argument('--create_playlist_file',
+                        action='store_true',
+                       help='create a playlist file with after reading the titles from the playlistfile')
+    parser.add_argument('--download', action='store_true',
+                        help='download the already existing playlist file with titles')
+    args = parser.parse_args()
+    return args
+
+
 
 def get_valid_filename(s):
-    badchars = re.compile(r'[^A-Za-z0-9_. ]+|^\.|\.$|^ | $|^$')
-    badnames = re.compile(r'(aux|com[1-9]|con|lpt[1-9]|prn)(\.|$)')
+    badchars = re.compile(r"""[^A-Za-z0-9_. ]+  # Anything other than these are bad chars 
+                            ,
+                            """,
+                            re.VERBOSE)
+    badnames = re.compile(r"""(aux
+|
+com[1-9]
+|
+con
+|
+lpt[1-9]
+|
+prn
+)
+(
+\.|$
+)""",
+                          re.VERBOSE)
     name = badchars.sub('_', s)
     if badnames.match(name):
         name = '_' + name
@@ -69,5 +115,12 @@ def download():
         pool.submit(downloadplaylist, playlistname, playlist)
 
 
-#create_playlistnamefile()
-download()
+def main():
+    args = parse_cmdline()
+    if args.create_playlist_file:
+        create_playlistnamefile()
+    if args.download:
+        download()
+
+if __name__ == '__main__':
+    main()
