@@ -84,6 +84,9 @@ def create_playlistnamefile():
     playlistnamefile.close()
 
 def downloadplaylist(playlistname, playlist):
+    """
+    Download an individual playlist
+    """
     dirname = get_valid_filename(playlistname)
     cwd = os.getcwd()
     try:
