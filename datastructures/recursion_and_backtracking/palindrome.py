@@ -4,6 +4,9 @@ def ispalindrome(s):
     def ispalindrome_helper(s, begin, end):
         
         if end - begin < 1:
+            # this case works better than
+            # begin < end
+            # because this check works for empty string as well
             return True
         else:
             if s[begin] == s[end]:
