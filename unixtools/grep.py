@@ -8,19 +8,27 @@ def parse_cmdline():
     parser.add_argument('pattern',
                         type=str,
                         help='pattern to search for')
-    parser.add_argument('filename', 
+    parser.add_argument('--filename', 
                         type=str,
-                        help='filename to check search')
+                        help='filename to check search',
+                        default=sys.stdin)
     args = parser.parse_args()
     return args
 
 def match(pattern, filename):
     prog = re.compile(pattern)
-    with open(filename) as f:
-        for line in f:
-            if prog.search(line):
-                six.print_(line, end='')
-    
+    if filename is sys.stdin:
+        f = filename
+    else:
+        f = open(filename)
+
+    for line in f:
+        if prog.search(line):
+            six.print_(line, end='')
+
+    if filename is not sys.stdin:
+        f.close()
+
 if __name__ == '__main__':
     
     args = parse_cmdline()

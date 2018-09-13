@@ -8,20 +8,26 @@ def parse_cmdline():
                         type=int,
                         help='count')
     
-    parser.add_argument('filename',
+    parser.add_argument('--filename',
                         type=str,
-                        help='name of the file')
+                        help='name of the file',
+                        default=sys.stdin)
     args = parser.parse_args()
     return args
 
 def head(filename, count):
     cnt = 0
-    with open(filename) as f:
-        for line in f:
-            cnt += 1
-            six.print_(line, end='')
-            if cnt == count:
-                break
+    if filename is sys.stdin:
+        f = filename
+    else:
+        f = open(filename)
+    for line in f:
+        cnt += 1
+        six.print_(line, end='')
+        if cnt == count:
+            break
+    if f is not sys.stdin:
+        f.close()
 
 if __name__ == '__main__':
 

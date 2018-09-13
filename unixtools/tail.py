@@ -1,6 +1,8 @@
 import sys
 import six
 import argparse
+sys.path.append('../datastructures/linked_list')
+from linkedlist import List, Node
 
 def parse_cmdline():
     parser = argparse.ArgumentParser(description='Unix like tail tool')
@@ -8,28 +10,59 @@ def parse_cmdline():
                         type=int,
                         help='count')
     
-    parser.add_argument('filename',
+    parser.add_argument('--filename',
                         type=str,
-                        help='name of the file')
+                        help='name of the file',
+                        default=sys.stdin)
     args = parser.parse_args()
     return args
 
 
-def tail(filename, count):
+class Buffer(List):
+    def __init__(self, size):
+        List.__init__(self)
+        self.size = size
+        self.content_size = 0
+        self.end_of_buffer = self.head
     
-    cnt = 0
-    with open(filename) as f:
-        for line in f:
-            cnt += 1
-            if cnt == count:
-                f1 = open(filename)
-            if cnt > count:
-                line1 = f1.readline()
-    
-    for line1 in f1:
-        six.print_(line1, end='')
-    f1.close()
+    def add(self, data):
+        
+        if self.content_size < self.size:
+            node = Node(data)
+            self.end_of_buffer.next = node
+            self.end_of_buffer = self.end_of_buffer.next
+            self.content_size += 1
+        else:
+            first_node = self.head.next
+            # change the data of first node
+            first_node.data = data
+            # move the pointer of head by one
+            self.head.next = first_node.next
+            # and make the first node the last node
+            self.end_of_buffer.next = first_node
+            first_node.next = None
+            # modify the end of buffer pointer to the first node
+            self.end_of_buffer = first_node
 
-args = parse_cmdline()
-tail(args.filename, args.lines)
+
+
+
+
+def tail(filename, count):
+    buffer = Buffer(count)
+    f = filename if filename is sys.stdin else open(filename)
+    for line in f:
+        buffer.add(line.strip('\n'))
+    if f is not sys.stdin:
+        f.close()
+    for line in buffer:
+        six.print_(line)
+
+def main():
+    args = parse_cmdline()
+    tail(args.filename, args.lines)
+
+
+if __name__ == '__main__':
+    main()
 
