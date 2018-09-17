@@ -14,7 +14,7 @@ def parse_cmdline():
 
 def seq(begin, end):
     for i in range(begin, end+1):
-        six.print_(i)
+        six.print_('{}'.format(i))
 
 def main():
     args = parse_cmdline()

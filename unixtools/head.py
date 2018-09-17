@@ -3,7 +3,7 @@ import six
 import argparse
 
 def parse_cmdline():
-    parser = argparse.ArgumentParser(description='Unix like head tool')
+    parser = argparse.ArgumentParser(description='Unix like xargs tool')
     parser.add_argument('--lines', 
                         type=int,
                         help='count')

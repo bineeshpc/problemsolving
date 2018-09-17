@@ -65,6 +65,7 @@ def permutation_with_replacement(chosen, available):
             # the element by one
             # for further exploration
             chosen.pop()
+        
 
 def main():
     lst = list('ABC')
