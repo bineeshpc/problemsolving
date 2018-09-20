@@ -58,13 +58,13 @@ class Filebinary(object):
     def dump(self):
         with open(self.file, 'wb') as output:
             # Pickle dictionary using protocol 0.
-            print 'Dumping to {}'.format(self.file)
+            print('Dumping to {}'.format(self.file))
             pickle.dump(self.data, output)
 
     def load(self):
         with open(self.file, 'rb') as pkl_file:
             self.data = pickle.load(pkl_file)
-            print 'Loading {0}'.format(self.file)
+            print('Loading {0}'.format(self.file))
         return self.data
 
 if __name__ == '__main__':
@@ -79,4 +79,4 @@ if __name__ == '__main__':
 #     otf = File(outputtestfile)
 #     otf.fprint()
 #     print(otf.numlines())
-    print File(inputtestfile).read()
+    print(File(inputtestfile).read())

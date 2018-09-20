@@ -5,7 +5,9 @@ import pickle
 import filehelper
 import collections
 import argparse
-
+import six
+import tempfile
+import os
 
 def enclose(data, s='"'):
     return '{s}{data}{s}'.format(s=s, data=data)
@@ -162,14 +164,15 @@ class Research(object):
     def emacs(self):
         
         for url1, ann in self.prioritizer.prioritized():
-            print "[[{}][{}]]".format(url1, ann)
+            six.print_("[[{}][{}]]".format(url1, ann))
             # print url1, ann
         
     def openbrowser(self, lst=None):
         """
         Create an html output and open it in browser
         """
-        search_output = "/tmp/searches.html"
+        tempdir = tempfile.gettempdir()
+        search_output = os.path.join(tempdir, "searches.html")
         html_string = """
             <html>
             <title>
@@ -227,7 +230,8 @@ class Prioritizer(object):
 
 
     def prioritized(self):
-        ordered = sorted(self.url_annotation_mapping, key=lambda(x): x[2])
+        ordered = sorted(self.url_annotation_mapping, 
+        key=lambda x: x[2])
         for x in ordered:
             yield x[0], x[1]
 
