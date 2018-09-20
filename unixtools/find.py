@@ -6,7 +6,7 @@ import os
 
 def parse_cmdline():
     parser = argparse.ArgumentParser(description='Unix like grep tool')
-    parser.add_argument('pattern',
+    parser.add_argument('--pattern',
                         type=str,
                         default = '.*',
                         help='pattern to search for')
