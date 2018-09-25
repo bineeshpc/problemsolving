@@ -1,0 +1,66 @@
+* symbol tables
+
+** Associative array is a symbol table
+
+API
+
+contains
+iterator
+put
+search
+isempty
+size
+keys etc
+
+** Binary search implementation
+
+rank of the key
+
+get is implemented using rank
+
+key sorted array
+value sortd by keys position
+
+For static data
+binary search in great
+
+When we need to input more data binary search is not good
+
+
+
+** Ordered symbol table api
+
+insert 
+delete
+search / get
+keys(a, b) keys between a and b
+haskey
+size(a, b) size between a and b
+rank(n)
+
+floor(key)
+ceiling(key)
+
+max
+min
+
+deletemin
+deletemax
+
+
+** BST
+good for rank
+equivalent to quicksort partition (when no duplicates)
+
+order statistics
+
+insert 
+
+hubbard delete(will make tree unbalanced)
+Need better algorithm
+
+Red black tree solves this problem
+
+
+
+
