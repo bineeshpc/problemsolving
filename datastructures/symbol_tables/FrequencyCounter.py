@@ -1,6 +1,7 @@
 import importlib
 import argparse
 import sys
+import glob
 
 class FrequencyCounter:
     def __init__(self, st, filename):
@@ -41,10 +42,11 @@ def parse_cmdline():
     parser = argparse.ArgumentParser(description='A frequency counter for text files')
     parser.add_argument('--filename',
                         help='name of the file',
-            default=None)
+            default=__file__)
     parser.add_argument('--symboltable',
     help='symbol table to use',
-    default='SequentialSearchST.SequentialSearchST'
+    default='SequentialSearchST.SequentialSearchST',
+    choices=['{0}.{0}'.format(filename.split('.')[0]) for filename in glob.glob('*ST.py')]
     )
     args = parser.parse_args()
     return args
