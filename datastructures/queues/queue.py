@@ -60,6 +60,17 @@ class QueueList:
     def dequeue(self):
         return self.get()
 
+    def __iter__(self):
+        self.iterhelper = self.head.next
+        return self
+
+    def __next__(self):
+        if self.iterhelper == None:
+            raise StopIteration
+        node = self.iterhelper
+        self.iterhelper = node.next
+        return node
+
 
 def test_queuelist():
     q = QueueList()
