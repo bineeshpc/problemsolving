@@ -69,7 +69,7 @@ class QueueList:
             raise StopIteration
         node = self.iterhelper
         self.iterhelper = node.next
-        return node
+        return node.data
 
 
 def test_queuelist():

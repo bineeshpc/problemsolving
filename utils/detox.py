@@ -20,7 +20,7 @@ def parse_cmdline():
     return args
 
 pattern_to_remove = re.compile("""
-[,]  #patterns to remove
+[,']  #patterns to remove
 """, re.VERBOSE)
 
 pattern_to_hyphen = re.compile("""
