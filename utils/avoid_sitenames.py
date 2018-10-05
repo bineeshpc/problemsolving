@@ -25,6 +25,7 @@ pattern = re.compile("""
 [wW]{3}\.[a-zA-Z0-9]*\.[a-zA-Z0-9]*-# website names
 |MovCr.com\- # movcr
 |ZippyMovieZ\.(Date|DE|CH)\- # zippymovies
+|[a-zA-Z]*\.(in|com)\- # generic for .com .in etc
 """, re.VERBOSE)
 
 def visit_all_files(dirname):
