@@ -1,3 +1,4 @@
+
 import random
 
 class Human:
@@ -62,12 +63,12 @@ def believer_count(humans):
 all_humans = make_humans(10**4 * 2)
 all_signals = make_signals(10**1)
 
-print 'rationalist count = ', rationalist_count(all_humans)
-print 'believer count = ', believer_count(all_humans)
+print ('rationalist count = ', rationalist_count(all_humans))
+print ('believer count = ', believer_count(all_humans))
 
 for human in all_humans:
     for signal in all_signals:
         human.survive(signal)
 
-print 'rationalist count = ', rationalist_count(all_humans)
-print 'believer count = ', believer_count(all_humans)
+print ('rationalist count = ', rationalist_count(all_humans))
+print ('believer count = ', believer_count(all_humans))
