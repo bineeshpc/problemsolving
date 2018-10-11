@@ -37,8 +37,8 @@ def is_middle_berth(seat_number):
     return is_condition(seat_number, middle_berth_rule)
 
 
-print 'Upper births',  [i for i in range(1, 73) if is_upper_berth(i) == True]
-print 'Middle births', [i for i in range(1, 73) if is_middle_berth(i) == True] 
-print 'Lower births', [i for i in range(1, 73) if is_lower_berth(i) == True] 
-print 'Side Upper births', [i for i in range(1, 73) if is_side_upper(i) == True] 
-print 'Side Lower births', [i for i in range(1, 73) if is_side_lower(i) == True] 
+print('Upper births',  [i for i in range(1, 73) if is_upper_berth(i) == True])
+print('Middle births', [i for i in range(1, 73) if is_middle_berth(i) == True]) 
+print('Lower births', [i for i in range(1, 73) if is_lower_berth(i) == True]) 
+print('Side Upper births', [i for i in range(1, 73) if is_side_upper(i) == True]) 
+print('Side Lower births', [i for i in range(1, 73) if is_side_lower(i) == True]) 

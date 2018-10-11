@@ -30,4 +30,4 @@ def generate_journal_data(begin, end):
 
 
 for x in generate_journal_data(a, b):
-    print x
+    print(x)

@@ -22,4 +22,4 @@ for day in get_days():
     date = find_date(day)
     if not date:
         break
-    print date.strftime('%B %d %Y %A'), day
+    print(date.strftime('%B %d %Y %A'), day)

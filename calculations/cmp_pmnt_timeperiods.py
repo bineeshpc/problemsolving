@@ -63,10 +63,10 @@ def calculate():
         offered_rate = calculate_with_offers(num_months)
         difference = rate_without_offers - offered_rate
         message = ''.join([message1, message2, message3, message4])
-        print message.format(months=num_months,
+        print((message.format(months=num_months,
                              without_offers=rate_without_offers,
                              difference=difference,
-                             offer_rate=offered_rate)
-        print "interest gained during this period", compare_scenarios(175 * num_months, num_months, 175, 10. / 100)
+                             offer_rate=offered_rate)))
+        print(("interest gained during this period", compare_scenarios(175 * num_months, num_months, 175, 10. / 100)))
 
 calculate()
