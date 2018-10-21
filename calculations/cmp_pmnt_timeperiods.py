@@ -12,9 +12,12 @@ The hindu subscription rates
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument(
-    "subscription_rate", help="Subscription rate for the lowest period", type=float)
-parser.add_argument("num_periods", help="Total number of periods",
-                                        type=int)
+    "subscription_rate",
+     help="Subscription rate for the lowest period",
+    type=float)
+parser.add_argument("num_periods",
+    help="Total number of periods",
+    type=int)
 args = parser.parse_args()
 
 offers = {1: 175, 3: 500, 6: 950, 12: 1800}
