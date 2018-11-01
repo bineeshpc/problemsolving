@@ -177,8 +177,8 @@ class MultiplePages:
         self.__begin = begin
         self.__end = end
         self.__pages = []
-        for language in self.__languages:
-            for page_number in range(self.__begin, self.__end + 1):
+        for page_number in range(self.__begin, self.__end + 1):
+            for language in self.__languages:
                 self.__pages.append(Page(language, page_number))
 
 
