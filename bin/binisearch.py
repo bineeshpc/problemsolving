@@ -54,7 +54,8 @@ class Research(object):
                                'practical', 'companies', 'government',
                                'mind the book', 'quora', 'yahoo answers',
                                'super user', 'stack overflow', 'arch',
-                               'debian', 'open source'
+                               'debian', 'open source',
+                               
         ]
         self.searchstrings = []
         self.toreplace = [(' ', '%20'),
@@ -140,6 +141,7 @@ class Research(object):
                             ('Blog search', 5),
                             ('Image search', 1),
                             ('Books', 6)
+                            
         ]
 
         self.prioritizer = Prioritizer(self.urls, self.annotation)
@@ -221,6 +223,8 @@ class Prioritizer(object):
         self.urls = urls
         self.annotations = annotations
         self.url_annotation_mapping = self.u_a_mapping()
+        for i, j in enumerate(self.url_annotation_mapping):
+            print(i, j)
 
     def u_a_mapping(self):
         mapping = []

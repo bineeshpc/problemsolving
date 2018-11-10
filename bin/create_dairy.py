@@ -20,9 +20,9 @@ def create_dairy(year, filename):
     date_var = start
     while date_var <= end:
         if date_var.day == 1:
-            month_line = '** {}-{} {}\n'.format(date_var.year, date_var.strftime('%d'), date_var.strftime('%B'))
+            month_line = '* {}-{} {}\n'.format(date_var.year, date_var.strftime('%d'), date_var.strftime('%B'))
             fileobj.write(month_line)
-        day_line = '*** {}-{}-{} {}\n'.format(date_var.year, date_var.strftime('%m'), date_var.strftime('%d'), date_var.strftime('%A'))
+        day_line = '** {}-{}-{} {}\n'.format(date_var.year, date_var.strftime('%m'), date_var.strftime('%d'), date_var.strftime('%A'))
         fileobj.write(day_line)
 
         date_var += timedelta
