@@ -1,14 +1,15 @@
 def reverse(s):
     """ given a string s returns the reverse string """
 
+    def swap(s, i, j):
+        s[i], s[j] = s[j], s[i]
+
     def reverse_helper(s, begin, end):
         # base case
         # recursion terminates when begin becomes >= end
         # recursive case
         if begin < end:
-            temp = s[begin]
-            s[begin] = s[end]
-            s[end] = temp
+            swap(s, begin, end)
             reverse_helper(s, begin + 1, end - 1)
 
     s_list = list(s)
