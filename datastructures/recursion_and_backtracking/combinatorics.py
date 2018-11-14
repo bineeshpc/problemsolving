@@ -8,7 +8,7 @@ class Perm:
         
     def generate_perm_with_replacement(self, n):
         if n <= 0:
-            self.permutations.append(self.choices_list)
+            self.permutations.append([i for i in self.choices_list])
         else:
             for choice in self.choices:
                 # n-1 th place can be filled in len(choices_list) ways
@@ -20,7 +20,7 @@ class Perm:
                 
     def generate_perm(self, n): 
         if n <= 0:
-            self.permutations.append(self.choices_list)
+            self.permutations.append([i for i in self.choices_list])
         else:
             for choice in self.choices:
                 if self.used[choice] == False:
@@ -42,5 +42,5 @@ def example_usage2(str1):
 
 
 if __name__ == '__main__':
-    print example_usage1("abc")
-    print example_usage2("abc")
+    print(sorted(example_usage1("abc")))
+    print(sorted(example_usage2("abc")))
