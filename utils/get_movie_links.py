@@ -27,8 +27,12 @@ import logging
 from pathlib import PureWindowsPath
 
 logger = logging.getLogger('get_movie_links')
-logger.setLevel(logging.DEBUG)
-fh = logging.FileHandler('get_movie_links.log')
+logger.setLevel(logging.INFO)
+logfilename = 'get_movie_links.log'
+with open(logfilename, 'w') as f:
+    pass
+
+fh = logging.FileHandler(logfilename)
 fh.setLevel(logging.DEBUG)
 logger.addHandler(fh)
 
@@ -223,15 +227,19 @@ class User:
             pickle.dump(self.multiple_pages.get_films(), f, pickle.HIGHEST_PROTOCOL)
 
     def get_new_films(self):
-        old_films = [film.get_name() for film in get_old_films()]
+        old_films_list = [film.get_name() for film in get_old_films()]
         new_films_list = [film.get_name() for film in self.multiple_pages.get_films()]
-        logger.debug('old films are: ')
-        logger.debug(old_films)
-        logger.debug('new films are: ')
-        logger.debug(new_films_list)
-        new_films = set(new_films_list) - set(old_films)
-        for film in new_films:
+        logger.info('Films read before are: ')
+        for film in old_films_list:
+            logger.info(film)
+        logger.info('Films read now are: ')
+        for film in new_films_list:
+            logger.info(film)
+        unseen_films = set(new_films_list) - set(old_films_list)
+        logger.info('Films that came after the last read are:')
+        for film in unseen_films:
             print(film)
+            logger.info(film)
 
 class Film:
     """ Stores info about film
