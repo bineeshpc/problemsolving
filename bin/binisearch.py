@@ -8,6 +8,7 @@ import argparse
 import six
 import tempfile
 import os
+import sys
 
 def enclose(data, s='"'):
     return '{s}{data}{s}'.format(s=s, data=data)
@@ -223,8 +224,8 @@ class Prioritizer(object):
         self.urls = urls
         self.annotations = annotations
         self.url_annotation_mapping = self.u_a_mapping()
-        for i, j in enumerate(self.url_annotation_mapping):
-            print(i, j)
+        #for i, j in enumerate(self.url_annotation_mapping):
+        #    print(i, j)
 
     def u_a_mapping(self):
         mapping = []
@@ -243,7 +244,9 @@ class Prioritizer(object):
 def main():
     # od = collections.OrderedDict()
     parser = argparse.ArgumentParser()
-    parser.add_argument("searchstring1", help="first search string")
+    parser.add_argument("searchstring1",
+                        help="first search string",
+                        nargs="?")
     parser.add_argument("searchstring2",
                         help="second search string", nargs="?")
 
@@ -253,6 +256,8 @@ def main():
     args = parser.parse_args()
     # print args.searchstring1
     # print args.searchstring2
+    if not args.searchstring1:
+        args.searchstring1 = sys.stdin.read()
     r = Research(args.searchstring1, args.searchstring2)
     if args.open_browser:
         r.openbrowser()
