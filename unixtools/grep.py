@@ -3,6 +3,7 @@ import argparse
 import re
 import six
 
+
 def parse_cmdline():
     parser = argparse.ArgumentParser(description='Unix like grep tool')
     parser.add_argument('pattern',
@@ -20,7 +21,7 @@ def match(pattern, filename):
     if filename is sys.stdin:
         f = filename
     else:
-        f = open(filename)
+        f = open(filename, encoding='utf-8')
 
     for line in f:
         if prog.search(line):

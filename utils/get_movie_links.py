@@ -28,11 +28,17 @@ from pathlib import PureWindowsPath
 
 logger = logging.getLogger('get_movie_links')
 logger.setLevel(logging.INFO)
+
+formatter = logging.Formatter(fmt='%(asctime)s %(levelname)-8s %(message)s',
+                              datefmt='%Y-%m-%d %H:%M:%S')
+
 logfilename = 'get_movie_links.log'
 with open(logfilename, 'w') as f:
     pass
 
-fh = logging.FileHandler(logfilename)
+fh = logging.FileHandler(logfilename,
+                        encoding='utf8')
+fh.setFormatter(formatter)
 fh.setLevel(logging.DEBUG)
 logger.addHandler(fh)
 
@@ -50,7 +56,8 @@ pattern_to_search = re.compile("""
 [,']  #patterns to remove
 """, re.VERBOSE)
 
-film_pattern = re.compile('>(.*)</a></td>')
+#film_pattern = re.compile('>(.*)</a></td>')
+film_pattern = re.compile('<a href="(?P<link>/torrent/.*)">(?P<movie>.*)</a></td>')
 
 def getProfile():
     profile = webdriver.FirefoxProfile()
@@ -60,61 +67,88 @@ def getProfile():
 
 def get_old_films():
     filename = 'film_out.pickle'
-    with open(filename, 'rb') as f:
-        films = pickle.load(f)
+    try:
+        with open(filename, 'rb') as f:
+            films = pickle.load(f)
+    except Exception as e:
+        print(e)
+        return []
     return films
 
+class BasePage:
+    """ Abstract Base page with definition of get_page function
+    """
 
-class Page:
-    def __init__(self, language, page_number):
-        """ Initializes the language and the page number
-        """
-        self.__language = language
-        self.__page_number = page_number
-        self.__url = "https://1337x.st/sort-search/{}/time/desc/{}/".format(
-            self.__language,
-            self.__page_number)
-        self.__page_source = None
-        self.__films = []
+    def __init__(self, url):
+        self._url = url
+        self._page_source = None
 
     def get_page(self, driver):
         """ Downloads the page and saves it in a variable
         """
-        driver.get(self.__url)
+        driver.get(self._url)
         try:
             element = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.ID, "autocomplete")))
-            logger.debug(self.__url + 'loaded')
+            logger.debug(self._url + 'loaded')
         except Exception as e:
-            logger.debug(self.__url + 'failed to load')
+            logger.debug(self._url + 'failed to load')
         try:
             driver.switch_to_alert().dismiss()
         except Exception as e:
-            logger.debug(self.__url + 'did not have alert')
-            self.__page_source = driver.page_source
+            logger.debug(self._url + 'did not have alert')
+            self._page_source = driver.page_source
             
 
 
+class LanguagePage(BasePage):
+    def __init__(self, language, page_number):
+        """ Initializes the language and the page number
+        """
+        url = "https://1337x.st/sort-search/{}/time/desc/{}/".format(
+            language,
+            page_number)
+        super().__init__(url)
+        self.__language = language
+        self.__page_number = page_number
+        self.__films = []
+        
+
     def parse_films(self):    
-        potential_films = re.findall('.*coll-1 name.*', self.__page_source)
+        potential_films = re.findall('.*coll-1 name.*', self._page_source)
         for potential_film in potential_films:
             try:
-                film_name = film_pattern.search(potential_film).group(1).split('>')[-1]
-                film = Film(film_name, self.__language, self.__page_number)
+                out_dict = film_pattern.search(potential_film).groupdict()
+                film_name = out_dict['movie']
+                link = 'https://1337x.st{}'.format(out_dict['link'])
+                film = Film(film_name, link, self.__language, self.__page_number)
+                
                 self.__films.append(film)
             except Exception as e:
-                logger.debug(self.__url + 'did not have films')
+                logger.debug(self._url + 'did not have films')
                 pass
 
     def get_films(self):
         return self.__films
 
 
-    def output_file(self):
-        output_file = "output_{}.html".format(language)
+    def save_output_file(self):
+        output_file = "{}_{}.html".format(self.__language, self.__page_number)
         with open(output_file, 'w', encoding="utf-8") as f:
-            f.write(driver.page_source)
+            f.write(self._page_source)
         
+class FilmPage(BasePage):
+    def __init__(self, url):
+        super().__init__(url)
+        
+
+    def get_magnet(self):
+        pattern = r'.*magnet.*'
+        #link_pattern = r'.*href="(?P<magnet>magnet:\?xt=urn:btih:[a-zA-Z0-9]*).*'
+        #link_pattern = r'.*(?P<magnet>magnet.*)&.*'
+        line = re.search(pattern, self._page_source).group()
+        return line.split('href="')[1].split('&')[0]
+
 
 
 class Selenium:
@@ -166,7 +200,7 @@ class Selenium:
     def __del__(self):
         self.tearDown()
 
-class MultiplePages:
+class MultipleLanguagePages:
     """
     This class is an agrregation of all Pages to download.
     User class typically uses this class
@@ -183,12 +217,13 @@ class MultiplePages:
         self.__pages = []
         for page_number in range(self.__begin, self.__end + 1):
             for language in self.__languages:
-                self.__pages.append(Page(language, page_number))
+                self.__pages.append(LanguagePage(language, page_number))
 
 
     def download_all(self, driver):
         for page in self.__pages:
             page.get_page(driver)
+            page.save_output_file()
     
     def get_films(self):
         films = []
@@ -206,11 +241,12 @@ class User:
     def __init__(self):
         start_time = time.time()
         sel_driver = Selenium()
+        self.sel_driver = sel_driver
         languages = ["Malayalam", "Tamil", "bollywood"]
         page_number_begin = 1
         page_number_end = 5
         self.output_file = 'film_out.pickle'
-        self.multiple_pages = MultiplePages(languages, page_number_begin, page_number_end)
+        self.multiple_pages = MultipleLanguagePages(languages, page_number_begin, page_number_end)
         self.multiple_pages.download_all(sel_driver.driver)
         # self.print_films()
         self.get_new_films()
@@ -229,34 +265,50 @@ class User:
     def get_new_films(self):
         old_films_list = [film.get_name() for film in get_old_films()]
         new_films_list = [film.get_name() for film in self.multiple_pages.get_films()]
+        
         logger.info('Films read before are: ')
-        for film in old_films_list:
+        for film in old_films_list:        
             logger.info(film)
+
         logger.info('Films read now are: ')
         for film in new_films_list:
             logger.info(film)
-        unseen_films = set(new_films_list) - set(old_films_list)
+
         logger.info('Films that came after the last read are:')
+        unseen_films = set(new_films_list) - set(old_films_list)
+        film_mapping = dict([(fo.get_name(), fo) for fo in self.multiple_pages.get_films()])
         for film in unseen_films:
-            print(film)
+            # film_obj = [fo for fo in self.multiple_pages.get_films() if fo.get_name() == film][0]
+            film_obj = film_mapping[film]
+            print(film_obj.get_name())
+            print(film_obj.get_link())
             logger.info(film)
+            logger.info(film_obj)
+            filmpage = FilmPage(film_obj.get_link())
+            filmpage.get_page(self.sel_driver.driver)
+            print(filmpage.get_magnet())
+            logger.info(filmpage.get_magnet())
 
 class Film:
     """ Stores info about film
     """
-    def __init__(self, name, language, page_number):
+    def __init__(self, name, link, language, page_number):
         self.__name = name
         self.__language = language
         self.__page_number = page_number
+        self.__link = link
 
     def __repr__(self):
-        return '({}, {}, {})'.format(self.__name, self.__language, self.__page_number)
+        return '({}, {}, {}, {})'.format(self.__name, self.__link, self.__language, self.__page_number)
 
     def __eq__(self, other):
         return self.__name == other.__name
 
     def get_name(self):
         return self.__name
+
+    def get_link(self):
+        return self.__link
 
 if __name__ == "__main__":
     User()
