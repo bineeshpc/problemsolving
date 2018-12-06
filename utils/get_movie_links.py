@@ -266,15 +266,15 @@ class User:
         old_films_list = [film.get_name() for film in get_old_films()]
         new_films_list = [film.get_name() for film in self.multiple_pages.get_films()]
         
-        logger.info('Films read before are: ')
+        logger.info('Films read in the previous run are: ')
         for film in old_films_list:        
             logger.info(film)
 
-        logger.info('Films read now are: ')
+        logger.info('\n\n\n\nFilms read in the current run are: ')
         for film in new_films_list:
             logger.info(film)
 
-        logger.info('Films that came after the last read are:')
+        logger.info('\n\n\n\nFilms newly found are:')
         unseen_films = set(new_films_list) - set(old_films_list)
         film_mapping = dict([(fo.get_name(), fo) for fo in self.multiple_pages.get_films()])
         for film in unseen_films:

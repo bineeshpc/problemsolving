@@ -1,4 +1,5 @@
 import random
+import BST
 
 def test_SequentialSearchST(st):
     assert st.isempty() == True
@@ -125,3 +126,42 @@ def test_BST(st):
     # print(list(zip(rand_ints_expected, rand_ints_actual)))
     assert rand_ints_expected == rand_ints_actual
             
+
+def pre_order(st, lst):
+    if st:
+        lst.append(st.key)
+        pre_order(st.left, lst)
+        pre_order(st.right, lst)
+    return lst
+    
+
+def in_order(st, lst):
+    if st:
+        in_order(st.left, lst)
+        lst.append(st.key)
+        in_order(st.right, lst)
+    return lst
+
+
+def post_order(st, lst):
+    if st:
+        post_order(st.left, lst)
+        post_order(st.right, lst)
+        lst.append(st.key)
+    return lst
+
+
+def test_BST_delete(st):
+    assert pre_order(st.root, []) == []
+    add_order = [5, 4, 6, 10]
+    for i in add_order:
+        st.put(i, i)
+    
+    assert pre_order(st.root, []) == [5, 4, 6, 10]
+    assert in_order(st.root, []) == [4, 5, 6, 10]
+    assert post_order(st.root, []) == [4, 10, 6, 5]
+
+    st.delete(5)
+    assert pre_order(st.root, []) == [6, 4, 10]
+    assert in_order(st.root, []) == [4, 6, 10]
+    assert post_order(st.root, []) == [4, 10, 6]

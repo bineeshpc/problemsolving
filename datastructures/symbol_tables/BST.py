@@ -48,7 +48,7 @@ class BST:
 
     def put_helper(self, node, key, value):
         if node == None:
-            return Node(key, value, 1)
+            return Node(key, value, 1) # 1 is size
         cmp = compare_to(key, node.key)
         if cmp < 0:
             node.left = self.put_helper(node.left, key, value)
@@ -77,9 +77,11 @@ class BST:
                 # delete the minimum from right subtree
                 # replace the present nodes key and value
                 # with the minimum from right subtree
-                deleted_node = self.delete_min(node.right)
-                node.key = deleted_node.key
-                node.value = deleted_node.value
+                minimum_node = self.min(node.right)
+                right_link = self.delete_min(node.right)
+                node.right = right_link
+                node.key = minimum_node.key
+                node.value = minimum_node.value
                 node.size = node.left.size + node.right.size + 1
                 return node
             elif node.left:
@@ -90,9 +92,15 @@ class BST:
 
     def delete_min(self, node):
         if node.left == None:
-            return None
+            return node.right
         node.left = self.delete_min(node.left)
         return node
+
+    def min(self, node):
+        if node.left == None:
+            return node
+        else:
+            return min(node.left)
 
     def contains(self, key):
         return self.contains_helper(self.root, key)
@@ -255,6 +263,8 @@ class BST:
 def main():
     st = BST()
     testlib.test_BST(st)
+    st1 = BST()
+    testlib.test_BST_delete(st1)
 
 if __name__ == '__main__':
     main()

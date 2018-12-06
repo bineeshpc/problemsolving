@@ -1,7 +1,7 @@
 import sys
 import testlib
 
-def compareto(a, b):
+def compare_to(a, b):
     if a < b:
         return -1
     elif a > b:
@@ -90,7 +90,7 @@ class BinarySearchST:
         Returns the largest element less than or equal to given key
         """
         rank = self.rank(key)
-        if rank < self.size() and comparte_to(key, self.keys[rank]) == 0:
+        if rank < self.size() and compare_to(key, self.keys[rank]) == 0:
             return self.keys[rank]
         if rank - 1 >= 0:
             return self.keys[rank-1]
