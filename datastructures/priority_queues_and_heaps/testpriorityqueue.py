@@ -11,8 +11,8 @@ class Test:
         for i in self.data:
             queue.insert(i)
         queue.heapsort()
-        print queue.data
-        print sorted(self.data)
+        print(queue.data)
+        print(sorted(self.data))
         assert queue.data == sorted(self.data)
 
     def test_with_tuple_max(self):
@@ -23,8 +23,8 @@ class Test:
         for i in self.data:
             queue.insert(i)
         queue.heapsort()
-        print queue.data
-        print sorted(self.data)
+        print(queue.data)
+        print(sorted(self.data))
         assert queue.data == sorted(self.data)
 
 
@@ -36,6 +36,6 @@ class Test:
         for i in self.data:
             queue.insert(i)
         queue.heapsort()
-        print queue.data
-        print sorted(self.data)
+        print(queue.data)
+        print(sorted(self.data))
         assert queue.data == sorted(self.data)

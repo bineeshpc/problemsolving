@@ -2,10 +2,10 @@ import heap
 
 
 class PriorityQueue(heap.Heap):
-    def enqueue(self.value):
+    def enqueue(self, value):
         self.insert(value)
 
-    def put(self.value):
+    def put(self, value):
         self.enqueue(value)
 
     def dequeue(self):
