@@ -1,6 +1,7 @@
 import quicksort
 import random
 
+
 def sort_shuffle(arr):
     """ 
     Generate a random number associated with every number and sort it
@@ -22,9 +23,10 @@ def knuth_shuffle(arr):
     length = len(arr) - 1
     while i <= length:
         position = random.randint(i, length)
-        arr[position], arr[i] = arr[i], arr[position] # swaps 2 positions
+        arr[position], arr[i] = arr[i], arr[position]  # swaps 2 positions
         i += 1
     return arr
+
 
 def my_shuffle(arr):
     """
@@ -34,7 +36,6 @@ def my_shuffle(arr):
     i moving from 0 to length - 1
     This one is complicated and I don't like this
     """
-    
     i = 0
     length = len(arr) - 1
     two_nums = [0, 0]
@@ -51,5 +52,3 @@ def my_shuffle(arr):
         arr[i], arr[num] = arr[num], arr[i]
         i += 1
     return arr
-
-
