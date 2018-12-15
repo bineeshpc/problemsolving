@@ -1,11 +1,10 @@
 import priorityqueue as pq
 import random
 
-class Test:
-    def setUp(self):
-        self.data = [random.randint(1, 10000) for i in range(20)]
+class TestPriorityQueue:
 
     def testheapsort(self):
+        self.data = [random.randint(1, 10000) for i in range(200)]
         length = len(self.data)
         queue = pq.PriorityQueue(length)
         for i in self.data:

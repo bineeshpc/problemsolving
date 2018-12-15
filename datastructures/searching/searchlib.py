@@ -7,7 +7,7 @@ def binary_search(a, n):
     def binary_search_helper(a, begin, end, n):
         if begin > end:
             return None
-        mid = (begin + end) / 2
+        mid = (begin + end) // 2
         if a[mid] == n:
             return mid
         else:
@@ -18,7 +18,7 @@ def binary_search(a, n):
 
     def binary_search_helper_itr(a, begin, end, n):
         while begin <= end:
-            mid = (begin + end) / 2
+            mid = (begin + end) // 2
             if a[mid] == n:
                 return mid
             else:
