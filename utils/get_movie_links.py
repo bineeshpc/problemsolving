@@ -18,6 +18,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.firefox.options import Options
+
 import time
 import re
 import datetime
@@ -25,6 +26,7 @@ import os
 import pickle
 import logging
 from pathlib import PureWindowsPath
+from bs4 import BeautifulSoup
 
 logger = logging.getLogger('get_movie_links')
 logger.setLevel(logging.INFO)
@@ -48,7 +50,12 @@ def parse_cmdline():
         description='Find the magnetic links of the latest movies available')
     parser.add_argument('language', 
                         type=str,
-                        help='give the language to search')
+                        help='give the language to search',
+                        default='')
+    parser.add_argument('query', 
+                        type=str,
+                        help='give a substring to search',
+                        default='')
     args = parser.parse_args()
     return args
 
@@ -114,7 +121,30 @@ class LanguagePage(BasePage):
         self.__films = []
         
 
-    def parse_films(self):    
+    def parse_films(self):
+        
+        def get_headers(soup):
+            name0 = soup.find('tr')
+            return [i.get_text() for i in name0.find_all('th')]
+
+        def get_data(soup):
+            headers = get_headers(soup)
+            for name1 in soup.find_all('tr'):
+                table_data = name1.find_all('td')
+                if table_data:
+                    link = table_data[0].find_all('a')[-1]['href']
+                    link = 'https://1337x.st{}'.format(link)
+                    values = [data.get_text() for data in table_data]
+                    yield dict(zip(headers, values)), link
+        
+        soup = BeautifulSoup(self._page_source, 'html.parser')
+        for film_dict, film_link in get_data(soup):
+            film = Film(film_dict, film_link, self.__language, self.__page_number)
+            self.__films.append(film)
+                
+
+
+    def parse_films_old(self):    
         potential_films = re.findall('.*coll-1 name.*', self._page_source)
         for potential_film in potential_films:
             try:
@@ -238,19 +268,27 @@ class User:
     User knows which urls to look for
     And download
     """
-    def __init__(self):
+    def __init__(self, language, query):
         start_time = time.time()
         sel_driver = Selenium()
         self.sel_driver = sel_driver
-        languages = ["Malayalam", "Tamil", "bollywood"]
+        if language == '':
+            languages = ["Malayalam", "Tamil", "bollywood"]
+        else:
+            languages = [language]
         page_number_begin = 1
         page_number_end = 5
         self.output_file = 'film_out.pickle'
         self.multiple_pages = MultipleLanguagePages(languages, page_number_begin, page_number_end)
         self.multiple_pages.download_all(sel_driver.driver)
         # self.print_films()
-        self.get_new_films()
-        self.save_pages()
+        
+        if language == '' and query == '': # do not call for small queries
+            self.get_new_films()
+            self.save_pages()
+        else:
+            self.get_films_match(query)
+
         end_time = time.time()
         print('excuted in {} seconds'.format(end_time - start_time))
 
@@ -289,17 +327,58 @@ class User:
             print(filmpage.get_magnet())
             logger.info(filmpage.get_magnet())
 
+
+    def get_films_match(self, query):
+        """ Do a case insensitive search and give the result
+        """
+        logger.info('\n\n\n\nTrying to match {}'.format(query))
+        for film_obj in self.multiple_pages.get_films():
+            if film_obj.get_name().lower().find(query) != -1:
+                print(film_obj.get_name())
+                logger.info(film_obj.get_name())
+                logger.info(repr(film_obj))
+                filmpage = FilmPage(film_obj.get_link())
+                filmpage.get_page(self.sel_driver.driver)
+                print(filmpage.get_magnet())
+                logger.info(filmpage.get_magnet())
+
+
 class Film:
     """ Stores info about film
     """
-    def __init__(self, name, link, language, page_number):
-        self.__name = name
+    def __init__(self, film_dict, link, language, page_number):
+        self.__name = film_dict['name']
         self.__language = language
         self.__page_number = page_number
         self.__link = link
+        self.__leachers = film_dict['le']
+        self.__seeders = film_dict['se']
+        self.__time = film_dict['time']
+        self.__size = film_dict['size info']
+        self.__uploader = film_dict['uploader']
+
 
     def __repr__(self):
-        return '({}, {}, {}, {})'.format(self.__name, self.__link, self.__language, self.__page_number)
+        v = []
+        v.append('(\nna={}')
+        v.append('link={}')
+        v.append('lang={}')
+        v.append('pn={}')
+        v.append('le={}')
+        v.append('se={}')
+        v.append('si={}')
+        v.append('ti={}')
+        v.append('up={}\n)')
+
+        return '\n'.join(v).format(self.__name,
+         self.__link,
+          self.__language,
+           self.__page_number,
+           self.__leachers,
+           self.__seeders,
+           self.__size,
+           self.__time,
+           self.__uploader)
 
     def __eq__(self, other):
         return self.__name == other.__name
@@ -311,4 +390,5 @@ class Film:
         return self.__link
 
 if __name__ == "__main__":
-    User()
+    args = parse_cmdline()
+    User(args.language, args.query)
