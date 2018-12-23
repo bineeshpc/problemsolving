@@ -25,6 +25,8 @@ import datetime
 import os
 import pickle
 import logging
+import tempfile
+
 from pathlib import PureWindowsPath
 from bs4 import BeautifulSoup
 
@@ -51,11 +53,13 @@ def parse_cmdline():
     parser.add_argument('language', 
                         type=str,
                         help='give the language to search',
-                        default='')
+                        default='',
+                        nargs='?')
     parser.add_argument('query', 
                         type=str,
                         help='give a substring to search',
-                        default='')
+                        default='',
+                        nargs='?')
     args = parser.parse_args()
     return args
 
@@ -163,7 +167,9 @@ class LanguagePage(BasePage):
 
 
     def save_output_file(self):
-        output_file = "{}_{}.html".format(self.__language, self.__page_number)
+        tempdir = tempfile.gettempdir()
+        output_file = "{}/{}_{}.html".format(tempdir,
+            self.__language, self.__page_number)
         with open(output_file, 'w', encoding="utf-8") as f:
             f.write(self._page_source)
         
@@ -333,7 +339,7 @@ class User:
         """
         logger.info('\n\n\n\nTrying to match {}'.format(query))
         for film_obj in self.multiple_pages.get_films():
-            if film_obj.get_name().lower().find(query) != -1:
+            if film_obj.get_name().lower().find(query.lower()) != -1:
                 print(film_obj.get_name())
                 logger.info(film_obj.get_name())
                 logger.info(repr(film_obj))
@@ -360,15 +366,15 @@ class Film:
 
     def __repr__(self):
         v = []
-        v.append('(\nna={}')
+        v.append('(\nname={}')
         v.append('link={}')
-        v.append('lang={}')
-        v.append('pn={}')
-        v.append('le={}')
-        v.append('se={}')
-        v.append('si={}')
-        v.append('ti={}')
-        v.append('up={}\n)')
+        v.append('language={}')
+        v.append('pagenumber={}')
+        v.append('leachers={}')
+        v.append('seaders={}')
+        v.append('size={}')
+        v.append('time={}')
+        v.append('uploader={}\n)')
 
         return '\n'.join(v).format(self.__name,
          self.__link,
