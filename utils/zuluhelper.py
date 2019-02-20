@@ -22,6 +22,8 @@ def execute(args):
     cmds = {"open" : "sudo zuluCrypt-cli -o -d {path} -t vera -m {basename} -M -p {password}",
             "close": "sudo zuluCrypt-cli -q -d {path}"
             }
+    # mount_location = "/mnt/seagate-2013/media/entertainment/Movies"
+    mount_location = "/home/pi"
     dirname = "zulu"
     password = None
     for filename in args.filename:
@@ -31,14 +33,22 @@ def execute(args):
             if not password:
                 password = getpass.getpass(prompt='Enter the password :')
             cmd = cmd.format(path=filename, basename=basename, password=password)
-            os.system('cd; mkdir -p {dirname}'.format(dirname=dirname))
+            os.system('cd {mount_location}; mkdir -p {dirname}'.format(
+                mount_location=mount_location,
+                dirname=dirname))
             os.system(cmd)
-            os.system('cd; cd {dirname}; ln -s /run/media/public/{basename} {basename}'.format(basename=basename, dirname=dirname))
+            os.system('cd {mount_location}; cd {dirname}; ln -s /run/media/public/{basename} {basename}'.format(
+                mount_location=mount_location,
+                basename=basename,
+                dirname=dirname))
 
         elif args.action == 'close':
             cmd = cmd.format(path=filename)
             os.system(cmd)
-            os.system('cd ; unlink {dirname}/{basename} ; sleep 1; rmdir {dirname}'.format(dirname=dirname, basename=basename))
+            os.system('cd {mount_location}; unlink {dirname}/{basename} ; sleep 1; rmdir {dirname}'.format(
+                mount_location=mount_location,
+                dirname=dirname,
+                basename=basename))
 
 def main():
     args = parse_cmd_line()
