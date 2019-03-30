@@ -48,6 +48,8 @@ def visit_all_files(dirname):
 
 def detox(location):
     dirname = location
+    cmd = 'mv /home/pi/Videos/* /mnt/transcend-2010/media/entertainment/Movies/000Latest/'
+    os.system(cmd)
     os.system('detox -r {}'.format(dirname))
     visit_all_files(dirname)
 
