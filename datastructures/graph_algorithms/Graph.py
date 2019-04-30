@@ -1,9 +1,18 @@
 from collections import defaultdict
 import six
 import sys
-sys.path.append("../queues/")
-sys.path.append("../stacks/")
-sys.path.append("../linked_list")
+import os
+
+my_path = os.path.dirname(__file__)
+linkelist_path = os.path.join(my_path, '../linked_list')
+queue_path = os.path.join(my_path, '../queues')
+stack_path = os.path.join(my_path, '../stacks')
+
+#sys.path.append(my_path)
+sys.path.append(linkelist_path)
+sys.path.append(queue_path)
+sys.path.append(stack_path)
+
 from linkedlist import List
 from stack_linked_list import Stack
 
