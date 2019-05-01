@@ -25,6 +25,7 @@ pattern = re.compile("""
 [wW]{3}\.[a-zA-Z0-9]*\.[a-zA-Z0-9]*-# website names
 |MovCr.com\- # movcr
 |ZippyMovieZ\.(Date|DE|CH)\- # zippymovies
+|1337xHD.Mobi # 1337x
 |[a-zA-Z]*\.(in|com|cc|org|net|site|live|Com)\- # generic for .com .in .cc etc
 """, re.VERBOSE)
 
