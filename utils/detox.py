@@ -1,3 +1,4 @@
+
 #! /usr/bin/env python
 
 """
@@ -24,7 +25,7 @@ pattern_to_remove = re.compile("""
 """, re.VERBOSE)
 
 pattern_to_hyphen = re.compile("""
-[\ ]  # space
+[_\ ]  # space and underscore
 """, re.VERBOSE)
 
 def replace_all_dots_except_extension(str1):
@@ -69,6 +70,20 @@ def visit_all_files(dirname):
         newbasename = pattern_to_remove.sub('', basename)
         newbasename = pattern_to_hyphen.sub('-', newbasename)
         newbasename = replace_all_dots_except_extension(newbasename)
+
+        # code to keep hyphen count to 1
+        chars = []
+        hyphen_count = 0
+        for i in newbasename:
+            if i == '-':
+                hyphen_count += 1
+            else:
+                if hyphen_count > 0:
+                    chars.append('-')
+                    hyphen_count = 0
+                chars.append(i)
+        newbasename = ''.join(chars)
+                
         newname = os.path.join(dirname, newbasename)
         if newname != fullname:
             six.print_("replacing ", fullname, "with", newname)
