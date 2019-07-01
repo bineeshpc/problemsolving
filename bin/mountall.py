@@ -114,6 +114,8 @@ def infer_mount_dirs(dirs):
     for dir_ in dirs:
         year = dir_.split('/')[2].split('-')[1]
         basename = os.path.basename(dir_)
+        if basename == 'agile':
+            basename = basename + '_remote'
         dirname = '{basename}_{year}'.format(year=year, basename=basename)
         dirname = os.path.join(home, 'remote', dirname).lower()
         mount_dirs.append(dirname)
@@ -126,6 +128,7 @@ def mount(dirs):
         if not os.path.exists(mount_dir):
             os.mkdir(mount_dir)
         cmd = 'sudo mount -F 10.47.47.10:{original_dir} {mount_dir}'.format(original_dir=original_dir, mount_dir=mount_dir)
+        print(cmd)
         os.system(cmd)
     
 
@@ -136,6 +139,7 @@ def umount(dirs):
             os.mkdir(mount_dir)
         
         cmd = 'sudo umount {mount_dir}'.format(mount_dir=mount_dir)
+        print(cmd)
         os.system(cmd)
 
     
