@@ -28,6 +28,6 @@ def create_dairy(year, filename):
         date_var += timedelta
 
     fileobj.close()
-    print "created diary for year {} at {}".format(year, filename)
+    print("created diary for year {} at {}".format(year, filename))
 
 create_dairy(year, filename)
