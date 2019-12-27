@@ -1,14 +1,14 @@
 import sys
 import time
 import os
-import commands
+import subprocess
 import six
 
 
 def prevent_multiple_runs(func):
     running_indicator = 'hello_running'
     while True:
-        if not os.path.exists(running_indicator) and commands.getstatusoutput('ps -ef | grep hello'):
+        if not os.path.exists(running_indicator) and subprocess.getstatusoutput('ps -ef | grep hello'):
             with open(running_indicator, 'w') as f:
                 func()
             os.remove(running_indicator)
@@ -25,7 +25,7 @@ def prevent_multiple_runs_dec(func):
     def wrapper():
         running_indicator = 'hello_running'
         while True:
-            if not os.path.exists(running_indicator) and commands.getstatusoutput('ps -ef | grep hello'):
+            if not os.path.exists(running_indicator) and subprocess.getstatusoutput('ps -ef | grep hello'):
                 with open(running_indicator, 'w') as f:
                     func()
                 os.remove(running_indicator)
